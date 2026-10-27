@@ -2,23 +2,27 @@ import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } f
 import { Volume2, VolumeX, Play, Pause, Music, ChevronUp, ChevronDown, Disc } from 'lucide-react';
 
 export interface MusicPlayerHandle {
-  playTrack: (trackKey: 'lobby' | 'party') => void;
+  playTrack: (trackKey: 'lobby' | 'party', customVolume?: number) => void;
   play: () => void;
   pause: () => void;
+  setVolume: (vol: number) => void;
+  getCurrentTrack: () => 'lobby' | 'party';
 }
 
 export const TRACKS = {
   lobby: {
     id: '08PaKd2Xmxw',
     title: 'Happy Upbeat Beat ("Thank You")',
-    artist: 'omitobeats • Nhạc Sảnh Chờ',
-    badge: 'SẢNH CHỜ'
+    artist: 'omitobeats • Nhạc Sảnh Triển Lãm (Vừa đọc vừa nghe)',
+    badge: 'SẢNH TRIỂN LÃM',
+    defaultVol: 38 // Gentle volume for reading stories comfortably
   },
   party: {
     id: 'CGfM-PN3qcs',
     title: 'Khúc Hát Mừng Sinh Nhật [Remix]',
-    artist: 'DJ Khoa Music • Tặng Quốc Mạnh',
-    badge: 'SINH NHẬT'
+    artist: 'DJ Khoa Music • Phòng Bánh Kem & Thổi Nến',
+    badge: 'BÁNH SINH NHẬT',
+    defaultVol: 80 // Energetic volume for birthday party celebration
   }
 };
 
@@ -41,7 +45,7 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
   const [currentTrackKey, setCurrentTrackKey] = useState<'lobby' | 'party'>(initialTrack);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [volume, setVolume] = useState<number>(80);
+  const [volume, setVolumeState] = useState<number>(TRACKS[initialTrack].defaultVol);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isReady, setIsReady] = useState<boolean>(false);
   const playerRef = useRef<any>(null);
@@ -50,8 +54,8 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
 
   // Expose imperative methods to parent
   useImperativeHandle(ref, () => ({
-    playTrack: (trackKey: 'lobby' | 'party') => {
-      switchTrack(trackKey, true);
+    playTrack: (trackKey: 'lobby' | 'party', customVolume?: number) => {
+      switchTrack(trackKey, true, customVolume);
     },
     play: () => {
       if (playerRef.current && isReady) {
@@ -64,14 +68,25 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
         playerRef.current.pauseVideo();
         setIsPlaying(false);
       }
-    }
+    },
+    setVolume: (vol: number) => {
+      setVolumeState(vol);
+      if (playerRef.current && isReady) {
+        playerRef.current.setVolume(vol);
+      }
+    },
+    getCurrentTrack: () => currentTrackKey,
   }));
 
-  const switchTrack = (trackKey: 'lobby' | 'party', startPlaying = true) => {
+  const switchTrack = (trackKey: 'lobby' | 'party', startPlaying = true, customVol?: number) => {
+    const targetVol = customVol !== undefined ? customVol : TRACKS[trackKey].defaultVol;
     setCurrentTrackKey(trackKey);
+    setVolumeState(targetVol);
+
     const newTrack = TRACKS[trackKey];
     if (playerRef.current && isReady) {
       try {
+        playerRef.current.setVolume(targetVol);
         playerRef.current.loadVideoById(newTrack.id);
         if (startPlaying) {
           playerRef.current.playVideo();
@@ -119,7 +134,6 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
             onReady: (event: any) => {
               setIsReady(true);
               event.target.setVolume(volume);
-              // Try to start playing lobby beat
               try {
                 event.target.playVideo();
                 setIsPlaying(true);
@@ -170,7 +184,7 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVol = parseInt(e.target.value, 10);
-    setVolume(newVol);
+    setVolumeState(newVol);
     if (playerRef.current && isReady) {
       playerRef.current.setVolume(newVol);
       if (newVol > 0 && isMuted) {
@@ -247,7 +261,7 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <button
-                    onClick={() => switchTrack('lobby', true)}
+                    onClick={() => switchTrack('lobby', true, 38)}
                     className={`px-2.5 py-1.5 rounded-lg text-left text-[11px] font-semibold border transition flex items-center gap-1.5 ${
                       currentTrackKey === 'lobby'
                         ? 'bg-amber-500/20 border-amber-400 text-amber-300'
@@ -255,10 +269,10 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
                     }`}
                   >
                     <Disc className="w-3.5 h-3.5 shrink-0" />
-                    <span className="truncate">Nhạc Sảnh Chờ</span>
+                    <span className="truncate">Nhạc Sảnh (Êm dịu)</span>
                   </button>
                   <button
-                    onClick={() => switchTrack('party', true)}
+                    onClick={() => switchTrack('party', true, 80)}
                     className={`px-2.5 py-1.5 rounded-lg text-left text-[11px] font-semibold border transition flex items-center gap-1.5 ${
                       currentTrackKey === 'party'
                         ? 'bg-amber-500/20 border-amber-400 text-amber-300'

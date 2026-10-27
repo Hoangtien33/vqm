@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { EXHIBITS_DATA } from './data/exhibitsData';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
@@ -20,17 +20,47 @@ export const App: React.FC = () => {
 
   const handleEnterMuseum = () => {
     setHasEntered(true);
-    // Switch to Remix Party track upon entering the exhibition
-    musicPlayerRef.current?.playTrack('party');
+    // When entering the museum hallway, keep playing the "Thank You" beat at gentle 38% volume
+    // so the visitor can comfortably read the artwork stories without loud distractions
+    musicPlayerRef.current?.playTrack('lobby', 38);
   };
 
   const handlePlayLobbyMusic = () => {
-    musicPlayerRef.current?.playTrack('lobby');
+    musicPlayerRef.current?.playTrack('lobby', 45);
   };
+
+  // Dynamic automatic music transition based on scroll section:
+  // - In exhibition hallway / sảnh: "Thank You" at gentle reading volume (38%)
+  // - In birthday cake room / phòng bánh kem: "Khúc Hát Mừng Sinh Nhật [Remix]" at party volume (80%)
+  useEffect(() => {
+    if (!hasEntered) return;
+
+    const futureRoomEl = document.getElementById('future-room');
+    if (!futureRoomEl) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Visitor is in the Birthday Cake Room -> Switch to Birthday Remix!
+            musicPlayerRef.current?.playTrack('party', 80);
+          } else {
+            // Visitor is back in the Exhibition Hallway -> Switch to gentle Thank You beat!
+            musicPlayerRef.current?.playTrack('lobby', 38);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(futureRoomEl);
+    return () => observer.disconnect();
+  }, [hasEntered]);
 
   const handleCelebration = () => {
     fireworksRef.current?.trigger();
-    musicPlayerRef.current?.playTrack('party');
+    // Energetic birthday remix celebration
+    musicPlayerRef.current?.playTrack('party', 85);
   };
 
   const handleWalk = (deltaX: number) => {
@@ -51,6 +81,8 @@ export const App: React.FC = () => {
     const el = document.getElementById(hallId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      // In hallway, ensure gentle reading volume
+      musicPlayerRef.current?.playTrack('lobby', 38);
     }
   };
 
@@ -58,6 +90,8 @@ export const App: React.FC = () => {
     const el = document.getElementById('future-room');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Switch directly to Birthday Remix at the cake room
+      musicPlayerRef.current?.playTrack('party', 80);
     }
   };
 

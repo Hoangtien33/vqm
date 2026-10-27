@@ -717,14 +717,16 @@
             lobby: {
                 id: '08PaKd2Xmxw',
                 title: 'Happy Upbeat Beat ("Thank You")',
-                artist: 'omitobeats • Nhạc Sảnh Chờ',
-                badge: 'SẢNH CHỜ'
+                artist: 'omitobeats • Nhạc Sảnh Triển Lãm (Vừa đọc vừa nghe)',
+                badge: 'SẢNH TRIỂN LÃM',
+                defaultVol: 38
             },
             party: {
                 id: 'CGfM-PN3qcs',
                 title: 'Khúc Hát Mừng Sinh Nhật [Remix]',
-                artist: 'DJ Khoa Music • Tặng Quốc Mạnh',
-                badge: 'SINH NHẬT'
+                artist: 'DJ Khoa Music • Phòng Bánh Kem & Thổi Nến',
+                badge: 'BÁNH SINH NHẬT',
+                defaultVol: 80
             }
         };
 
@@ -926,7 +928,7 @@
                 },
                 events: {
                     onReady: (e) => {
-                        e.target.setVolume(85);
+                        e.target.setVolume(TRACK_CONFIG.lobby.defaultVol || 38);
                         try {
                             e.target.playVideo();
                             ytPlaying = true;
@@ -948,7 +950,7 @@
 
         function startLobbyMusic() {
             if (!ytPlayer) return;
-            switchYTIframeTrack('lobby');
+            switchYTIframeTrack('lobby', 38);
         }
 
         function playLobbyMusicIfStopped() {
@@ -959,27 +961,38 @@
             }
         }
 
-        function switchYTIframeTrack(trackKey) {
+        function switchYTIframeTrack(trackKey, customVol) {
             currentActiveTrack = trackKey;
             const track = TRACK_CONFIG[trackKey];
-            if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-                ytPlayer.loadVideoById(track.id);
-                ytPlayer.playVideo();
-                ytPlaying = true;
-                updateYTUI(true);
+            const targetVol = customVol !== undefined ? customVol : (track.defaultVol || 38);
+            if (ytPlayer) {
+                if (typeof ytPlayer.setVolume === 'function') {
+                    ytPlayer.setVolume(targetVol);
+                }
+                if (typeof ytPlayer.loadVideoById === 'function') {
+                    ytPlayer.loadVideoById(track.id);
+                    ytPlayer.playVideo();
+                    ytPlaying = true;
+                    updateYTUI(true);
+                }
             }
-            document.getElementById('ytBadgeText').textContent = track.badge;
-            document.getElementById('ytTrackTitle').textContent = track.title;
-            document.getElementById('ytTrackArtist').textContent = track.artist;
+            const badgeEl = document.getElementById('ytBadgeText');
+            const titleEl = document.getElementById('ytTrackTitle');
+            const artistEl = document.getElementById('ytTrackArtist');
+            if (badgeEl) badgeEl.textContent = track.badge;
+            if (titleEl) titleEl.textContent = track.title;
+            if (artistEl) artistEl.textContent = track.artist;
 
             const btnLobby = document.getElementById('btnTrackLobby');
             const btnParty = document.getElementById('btnTrackParty');
-            if (trackKey === 'lobby') {
-                btnLobby.className = "flex-1 px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center font-medium";
-                btnParty.className = "flex-1 px-2 py-1 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-amber-200 text-center font-medium";
-            } else {
-                btnParty.className = "flex-1 px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center font-medium";
-                btnLobby.className = "flex-1 px-2 py-1 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-amber-200 text-center font-medium";
+            if (btnLobby && btnParty) {
+                if (trackKey === 'lobby') {
+                    btnLobby.className = "flex-1 px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center font-medium";
+                    btnParty.className = "flex-1 px-2 py-1 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-amber-200 text-center font-medium";
+                } else {
+                    btnParty.className = "flex-1 px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center font-medium";
+                    btnLobby.className = "flex-1 px-2 py-1 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-amber-200 text-center font-medium";
+                }
             }
         }
 
@@ -1132,12 +1145,54 @@
 
         function jumpToHall(hallId) {
             const el = document.getElementById(hallId);
-            if (el) el.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+                // In exhibition hallway: gentle reading volume for Thank You beat
+                if (currentActiveTrack !== 'lobby') {
+                    switchYTIframeTrack('lobby', 38);
+                }
+            }
         }
 
         function scrollToZone(id) {
             const el = document.getElementById(id);
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (id === 'future-room') {
+                    // Birthday cake room -> Switch to energetic Birthday Party Remix
+                    switchYTIframeTrack('party', 80);
+                } else if (id === 'museumHallway') {
+                    // Back to hallway -> Gentle reading beat
+                    switchYTIframeTrack('lobby', 38);
+                }
+            }
+        }
+
+        function setupMusicZoneObserver() {
+            const futureRoom = document.getElementById('future-room');
+            if (!futureRoom || !window.IntersectionObserver) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    const gate = document.getElementById('entranceGate');
+                    const hasEntered = gate && (gate.classList.contains('hidden') || gate.classList.contains('opacity-0'));
+                    if (!hasEntered) return;
+
+                    if (entry.isIntersecting) {
+                        // In Cake Room -> Birthday Remix at party volume (80%)
+                        if (currentActiveTrack !== 'party') {
+                            switchYTIframeTrack('party', 80);
+                        }
+                    } else {
+                        // In Hallway / Sảnh -> Thank You at reading volume (38%)
+                        if (currentActiveTrack !== 'lobby') {
+                            switchYTIframeTrack('lobby', 38);
+                        }
+                    }
+                });
+            }, { threshold: 0.25 });
+
+            observer.observe(futureRoom);
         }
 
         function toggleLayoutMode() {
@@ -1165,8 +1220,8 @@
                 gate.classList.add('opacity-0', 'pointer-events-none');
                 setTimeout(() => gate.classList.add('hidden'), 700);
 
-                // Switch to Birthday Party Remix
-                switchYTIframeTrack('party');
+                // When entering hallway: keep gentle "Thank You" beat at 38% volume for comfortable reading
+                switchYTIframeTrack('lobby', 38);
             } else {
                 err.classList.remove('hidden');
             }
@@ -1251,7 +1306,7 @@
             document.getElementById('blowBtn').classList.add('hidden');
             document.getElementById('relightBtn').classList.remove('hidden');
 
-            switchYTIframeTrack('party');
+            switchYTIframeTrack('party', 85);
             triggerCelebrationFireworks();
         }
 
@@ -1371,6 +1426,7 @@
             renderMuseumHallway();
             setupHorizontalWheel();
             initAmbientGoldDust();
+            setupMusicZoneObserver();
         });
     </script>
 </body>
