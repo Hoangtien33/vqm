@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cake, LayoutGrid, Footprints, Compass } from 'lucide-react';
+import { Cake, LayoutGrid, Footprints } from 'lucide-react';
 
 interface NavbarProps {
   onJumpToHall: (hallId: string) => void;

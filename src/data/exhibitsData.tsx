@@ -1,4 +1,3 @@
-import React from 'react';
 import { Exhibit, HallSection } from '../types/museum';
 
 export const HALL_SECTIONS: Record<string, HallSection> = {

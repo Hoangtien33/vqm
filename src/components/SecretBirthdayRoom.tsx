@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Dices, Ban, Armchair, Copy, Check } from 'lucide-react';
+import { ShieldCheck, Copy, Check } from 'lucide-react';
 import { BirthdayCake } from './BirthdayCake';
 import { DetoxState } from '../types/museum';
 

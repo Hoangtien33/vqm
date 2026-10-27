@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, forwardRef, useRef } from 'react';
+import { useEffect, useImperativeHandle, forwardRef, useRef } from 'react';
 
 export interface FireworksHandle {
   trigger: () => void;

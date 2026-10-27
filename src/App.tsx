@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { EXHIBITS_DATA } from './data/exhibitsData';
-import { Exhibit } from './types/museum';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { MuseumHallway } from './components/MuseumHallway';
