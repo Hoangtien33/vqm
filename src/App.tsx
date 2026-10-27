@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { EXHIBITS_DATA } from './data/exhibitsData';
 import { Navbar } from './components/Navbar';
-import { HeroSection } from './components/HeroSection';
 import { MuseumHallway } from './components/MuseumHallway';
 import { SecretBirthdayRoom } from './components/SecretBirthdayRoom';
 import { ArtworkModal } from './components/ArtworkModal';
@@ -118,13 +117,6 @@ export const App: React.FC = () => {
         onScrollToFinal={handleScrollToFinal}
         isGridView={isGridView}
         onToggleLayout={() => setIsGridView(!isGridView)}
-      />
-
-      {/* Hero Welcome Banner & Controls */}
-      <HeroSection
-        exhibits={EXHIBITS_DATA}
-        onWalk={handleWalk}
-        onScrollToExhibit={handleScrollToExhibit}
       />
 
       {/* Main Horizontal Museum Hallway */}

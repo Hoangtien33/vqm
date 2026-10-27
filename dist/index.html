@@ -360,44 +360,7 @@
     </header>
 
     <!-- ==========================================
-         3. HERO EXHIBITION INTRO & CONTROLS
-         ========================================== -->
-    <section id="hallway-start" class="relative z-10 border-b border-amber-500/20 bg-gradient-to-b from-[#14131b] via-[#0c0c10] to-[#08080a] py-8 px-4">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="space-y-2 text-center md:text-left">
-                <div class="inline-flex items-center gap-2 text-xs text-amber-400 uppercase tracking-widest font-semibold font-mono">
-                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    <span>HÀNH TRÌNH TRIỂN LÃM ĐỘC QUYỀN • DÀNH TẶNG VƯƠNG QUỐC MẠNH</span>
-                </div>
-                <h1 class="font-serif-luxury text-2xl sm:text-4xl text-white font-bold leading-tight">
-                    Hành Lang Ký Ức: <span class="gold-shimmer italic">10 Kiệt Tác Đi Cùng Năm Tháng</span>
-                </h1>
-                <p class="text-zinc-400 text-sm max-w-2xl leading-relaxed">
-                    Hãy <strong class="text-amber-200">cuộn chuột (mouse wheel)</strong> hoặc bấm phím mũi tên để dạo bước dọc hành lang. 
-                    Nhấp vào bất kỳ bức tranh nào để ngắm chi tiết qua kính lúp và thưởng thức câu chuyện đằng sau!
-                </p>
-            </div>
-
-            <!-- Removed Upload Button -->
-            <div class="flex items-center gap-2 shrink-0">
-                <button onclick="walkHallway(-550)" class="px-5 py-3 rounded-xl bg-zinc-900/90 hover:bg-amber-500/20 border border-amber-500/30 text-amber-200 text-sm font-semibold flex items-center gap-2 transition active:scale-95 shadow-md">
-                    ◀ Lùi lại
-                </button>
-                <button onclick="walkHallway(550)" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 text-zinc-950 text-sm font-bold flex items-center gap-2 transition active:scale-95 shadow-lg shadow-amber-500/20 hover:brightness-110">
-                    Bước tiếp ▶
-                </button>
-            </div>
-        </div>
-
-        <div class="max-w-6xl mx-auto mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-400 overflow-x-auto gap-4 pb-2">
-            <span class="text-amber-300 font-mono shrink-0 uppercase tracking-wider text-[11px] font-bold">Sơ Đồ Phòng Tranh:</span>
-            <div class="flex items-center gap-2 shrink-0" id="miniMapDots"></div>
-            <span class="text-[11px] text-zinc-500 font-mono shrink-0">Lăn chuột dọc để đi ngang</span>
-        </div>
-    </section>
-
-    <!-- ==========================================
-         4. GRAND GALLERY HALLWAY (10 EXHIBITS)
+         3. GRAND GALLERY HALLWAY (10 EXHIBITS)
          ========================================== -->
     <main class="relative z-10 flex-1 flex flex-col justify-between overflow-hidden">
         <div id="museumHallway" class="gallery-scroll-container flex items-stretch gap-12 sm:gap-16 overflow-x-auto px-6 sm:px-16 pt-16 pb-14 min-h-[720px] select-none"></div>
@@ -1023,17 +986,19 @@
         function renderMuseumHallway() {
             const hallway = document.getElementById('museumHallway');
             const miniMap = document.getElementById('miniMapDots');
-            hallway.innerHTML = '';
-            miniMap.innerHTML = '';
+            if (hallway) hallway.innerHTML = '';
+            if (miniMap) miniMap.innerHTML = '';
 
             let lastHallSection = '';
 
             EXHIBIT_ITEMS.forEach((item, index) => {
-                const dot = document.createElement('button');
-                dot.className = "w-6 h-6 rounded-md bg-zinc-800 hover:bg-amber-500/30 text-[10px] font-mono text-zinc-300 hover:text-amber-200 border border-zinc-700 flex items-center justify-center transition";
-                dot.textContent = item.id;
-                dot.onclick = () => scrollToExhibit(item.id);
-                miniMap.appendChild(dot);
+                if (miniMap) {
+                    const dot = document.createElement('button');
+                    dot.className = "w-6 h-6 rounded-md bg-zinc-800 hover:bg-amber-500/30 text-[10px] font-mono text-zinc-300 hover:text-amber-200 border border-zinc-700 flex items-center justify-center transition";
+                    dot.textContent = item.id;
+                    dot.onclick = () => scrollToExhibit(item.id);
+                    miniMap.appendChild(dot);
+                }
 
                 if (item.hallId !== lastHallSection) {
                     lastHallSection = item.hallId;
