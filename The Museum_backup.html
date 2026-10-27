@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE MUSEUM OF VƯƠNG QUỐC MẠNH | 27.10.2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-dark: #996515;
+            --museum-bg: #08080a;
+            --museum-wall: #101014;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--museum-bg);
+            color: #f4f4f6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        .font-serif-luxury {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Luxury Gold Frame Styling */
+        .museum-frame {
+            position: relative;
+            background: #141418;
+            border: 10px solid #2a2112;
+            box-shadow: 
+                inset 0 0 0 2px #d4af37,
+                inset 0 0 25px rgba(0,0,0,0.9),
+                0 25px 50px -12px rgba(0, 0, 0, 0.95),
+                0 0 0 1px #5c4722,
+                0 0 35px rgba(212, 175, 55, 0.12);
+            border-image: linear-gradient(135deg, #b38728 0%, #fbf5b7 25%, #9a741b 50%, #fbf5b7 75%, #8a6412 100%) 1;
+            transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .museum-frame:hover {
+            transform: translateY(-8px) scale(1.015);
+            box-shadow: 
+                inset 0 0 0 2px #fff3b0,
+                inset 0 0 20px rgba(0,0,0,0.85),
+                0 30px 60px -10px rgba(0, 0, 0, 0.95),
+                0 0 45px rgba(212, 175, 55, 0.32);
+        }
+
+        /* Ceiling Spotlight Effect */
+        .spotlight-cone {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 440px;
+            height: 620px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(255, 226, 145, 0.17) 0%, rgba(212, 175, 55, 0.05) 45%, transparent 75%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .lamp-fixture {
+            position: absolute;
+            top: -42px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 56px;
+            height: 14px;
+            background: linear-gradient(90deg, #27272a, #71717a, #27272a);
+            border-radius: 6px 6px 2px 2px;
+            box-shadow: 0 4px 18px rgba(251, 245, 183, 0.65);
+            z-index: 5;
+        }
+
+        .lamp-fixture::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: #fef08a;
+            border-radius: 50%;
+            box-shadow: 0 0 18px 4px rgba(253, 224, 71, 0.85);
+        }
+
+        /* Museum Brass Plaque */
+        .brass-plaque {
+            background: linear-gradient(145deg, #1d1a14 0%, #12100c 100%);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8), inset 0 0 12px rgba(212, 175, 55, 0.08);
+            position: relative;
+        }
+
+        .brass-plaque::before,
+        .brass-plaque::after {
+            content: '•';
+            position: absolute;
+            top: 6px;
+            color: #b38728;
+            font-size: 12px;
+        }
+        .brass-plaque::before { left: 8px; }
+        .brass-plaque::after { right: 8px; }
+
+        /* Horizontal Walk Container */
+        .gallery-hall-scroll {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #d4af37 #141418;
+        }
+
+        .gallery-hall-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+        .gallery-hall-scroll::-webkit-scrollbar-track {
+            background: #101014;
+        }
+        .gallery-hall-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, #8a6412, #d4af37, #8a6412);
+            border-radius: 9999px;
+        }
+
+        /* Velvet Rope Decoration */
+        .velvet-rope {
+            height: 6px;
+            background: repeating-linear-gradient(45deg, #7f1d1d, #7f1d1d 8px, #991b1b 8px, #991b1b 16px);
+            border-radius: 999px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.75);
+        }
+
+        /* Candle Flame Animation */
+        @keyframes flicker {
+            0%, 100% { transform: scale(1) rotate(-1deg); opacity: 0.95; }
+            25% { transform: scale(1.06, 0.96) rotate(2deg); opacity: 1; }
+            50% { transform: scale(0.95, 1.08) rotate(-2deg); opacity: 0.88; }
+            75% { transform: scale(1.04, 1.02) rotate(1deg); opacity: 0.98; }
+        }
+
+        .candle-flame {
+            animation: flicker 1.2s infinite ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        /* Gold Text Shimmer */
+        .gold-gradient-text {
+            background: linear-gradient(to right, #cfc09f 0%, #ffecb3 30%, #d4af37 65%, #9a741b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Marble Floor Reflection */
+        .marble-floor {
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), transparent 60%),
+                linear-gradient(180deg, rgba(10,10,12,0.95) 0%, rgba(18,18,24,0.98) 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Discord Mock Styles */
+        .discord-bg {
+            background-color: #313338;
+            color: #dbdee1;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .discord-mention {
+            background-color: rgba(88, 101, 242, 0.3);
+            color: #c9cdfb;
+            padding: 0 4px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500/30 selection:text-amber-200">
+
+    <!-- Ambient Gold Dust Canvas -->
+    <canvas id="dustCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+
+    <!-- ==========================================
+         1. ENTRANCE LOBBY / PASSCODE TICKET GATE
+         ========================================== -->
+    <div id="lobbyOverlay" class="fixed inset-0 z-50 bg-[#070709] flex items-center justify-center p-4 overflow-y-auto transition-opacity duration-700">
+        <div class="max-w-xl w-full bg-[#111116] border border-amber-500/30 rounded-2xl p-6 sm:p-10 shadow-[0_0_80px_rgba(212,175,55,0.15)] relative overflow-hidden my-auto">
+            <!-- Corner Gold Accents -->
+            <div class="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-amber-500/50 rounded-tl-2xl pointer-events-none"></div>
+            <div class="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-amber-500/50 rounded-tr-2xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-amber-500/50 rounded-bl-2xl pointer-events-none"></div>
+            <div class="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-amber-500/50 rounded-br-2xl pointer-events-none"></div>
+
+            <div class="text-center space-y-4">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs uppercase tracking-[0.25em]">
+                    <span>🏛️ Triển Lãm Đặc Biệt • 27.10.2026</span>
+                </div>
+
+                <h1 class="font-cinzel text-2xl sm:text-4xl font-bold tracking-wider gold-gradient-text leading-tight">
+                    THE MUSEUM OF<br>VƯƠNG QUỐC MẠNH
+                </h1>
+
+                <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-md mx-auto">
+                    Chào mừng đến với <strong class="text-amber-200">Bảo Tàng Ký Ức</strong> lưu giữ 10 tuyệt tác để đời: từ những kèo CS2 IEM Kraków nghẹt thở, pha cụp pha cổng trường, kiếp nạn đi IRL cho đến Dream Team huyền thoại.
+                </p>
+
+                <!-- Ticket Card -->
+                <div class="bg-[#181820] border border-amber-500/20 rounded-xl p-4 sm:p-5 text-left space-y-3 my-4">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-widest text-zinc-500 block">NHÂN VẬT CHÍNH</span>
+                            <span class="font-semibold text-amber-300 text-base">Vương Quốc Mạnh (s1natraa / nùn ná na na)</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[11px] uppercase tracking-widest text-zinc-500 block">NGÀY SINH NHẬT</span>
+                            <span class="font-mono text-amber-200 text-sm font-bold">27 / 10 / 2026</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
+                            🔑 Nhập mật khẩu mở cửa bảo tàng (Gợi ý: <span class="text-amber-300 font-mono">2710</span> hoặc <span class="text-amber-300 font-mono">27102026</span>):
+                        </label>
+                        <div class="flex gap-2">
+                            <input 
+                                id="passcodeInput" 
+                                type="text" 
+                                placeholder="Nhập 2710..." 
+                                value="27102026"
+                                class="w-full bg-zinc-950 border border-amber-500/40 focus:border-amber-400 rounded-lg px-4 py-2.5 text-center font-mono text-lg tracking-widest text-amber-200 outline-none"
+                            >
+                            <button 
+                                onclick="enterMuseum()" 
+                                class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 text-zinc-950 font-bold text-sm tracking-wide hover:brightness-110 active:scale-95 transition whitespace-nowrap shadow-lg shadow-amber-500/20">
+                                MỞ CỬA ➔
+                            </button>
+                        </div>
+                        <p id="passError" class="text-red-400 text-xs mt-1.5 hidden">Sai mật khẩu rồi thằng em! Nhập 2710 hoặc 27102026 nhé.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
+                    <button 
+                        onclick="enterMuseum(true)" 
+                        class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-zinc-800/90 hover:bg-zinc-700 text-amber-200 text-xs sm:text-sm font-medium border border-amber-500/20 transition">
+                        ✨ Vào thẳng bằng Vé VIP (Không cần nhập Pass)
+                    </button>
+                    <label class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/70 text-emerald-300 text-xs sm:text-sm font-medium border border-emerald-500/30 transition cursor-pointer text-center">
+                        📂 Tải 10 ảnh gốc từ máy (Tùy chọn)
+                        <input type="file" id="bulkImageInput" multiple accept="image/*" class="hidden" onchange="handleBulkUpload(event)">
+                    </label>
+                </div>
+                <p class="text-[11px] text-zinc-500">
+                    *Bảo tàng đã dựng sẵn đầy đủ 10 bức tranh kỷ niệm chuẩn 1:1. Bạn cũng có thể bấm vào bất kỳ bức tranh nào để thay ảnh thật từ máy!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         2. TOP NAVIGATION BAR (MUSEUM HEADER)
+         ========================================== -->
+    <header class="sticky top-0 z-40 bg-[#09090c]/90 backdrop-blur-md border-b border-amber-500/20 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand Title -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-700/20 border border-amber-500/40 flex items-center justify-center text-amber-300 font-cinzel font-bold text-lg shadow-inner">
+                    M
+                </div>
+                <div>
+                    <h2 class="font-cinzel text-sm sm:text-base font-bold tracking-wider gold-gradient-text">
+                        BẢO TÀNG KÝ ỨC: VƯƠNG QUỐC MẠNH
+                    </h2>
+                    <p class="text-[11px] text-zinc-400">Sinh nhật 27/10/2026 • 10 Tác Phẩm Kinh Điển & Lời Nhắn Tuổi Mới</p>
+                </div>
+            </div>
+
+            <!-- Room Quick Jump & Controls -->
+            <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                <button onclick="scrollToZone('hall-1')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-amber-500/20 text-zinc-300 hover:text-amber-200 border border-zinc-800 transition">
+                    Sảnh I: Kèo CS2
+                </button>
+                <button onclick="scrollToZone('hall-2')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-amber-500/20 text-zinc-300 hover:text-amber-200 border border-zinc-800 transition">
+                    Sảnh II: Cổng Trường & Couple Ảo
+                </button>
+                <button onclick="scrollToZone('hall-3')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-amber-500/20 text-zinc-300 hover:text-amber-200 border border-zinc-800 transition">
+                    Sảnh III: Kiếp Nạn IRL & Dream Team
+                </button>
+                <button onclick="scrollToZone('final-room')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-amber-600 to-yellow-500 text-zinc-950 shadow-md shadow-amber-500/10 hover:brightness-110 transition">
+                    🎂 Phòng Cuối: Tâm Thư & Thổi Nến
+                </button>
+
+                <!-- Layout Mode Toggle -->
+                <button id="layoutToggleBtn" onclick="toggleLayoutMode()" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 transition" title="Chuyển chế độ đi bộ ngang / Xem lưới">
+                    🚶 Chế độ: Đi Dọc Hành Lang
+                </button>
+
+                <!-- Sound Toggle -->
+                <button id="audioToggleBtn" onclick="toggleBirthdayChime()" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-zinc-800 text-amber-300 border border-zinc-700 transition">
+                    🔊 Nhạc: Bật
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         3. MUSEUM HERO BANNER & WALKING CONTROLS
+         ========================================== -->
+    <section class="relative z-10 border-b border-amber-500/15 bg-gradient-to-b from-[#121118] to-[#08080a] py-8 px-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-2 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 text-xs text-amber-400/90 uppercase tracking-widest font-semibold">
+                    <span>✨ CHÀO MỪNG THẰNG EM VƯƠNG QUỐC MẠNH BƯỚC SANG TUỔI MỚI (27/10/2026)</span>
+                </div>
+                <h1 class="font-serif-luxury text-2xl sm:text-4xl text-white font-bold">
+                    Hành Lang Ký Ức: <span class="gold-gradient-text italic">10 Khoảnh Khắc Đi Vào Lịch Sử</span>
+                </h1>
+                <p class="text-zinc-400 text-sm max-w-2xl">
+                    Hãy cuộn ngang hoặc bấm nút điều hướng để dạo bước qua từng bức tranh. Click vào bất kỳ khung tranh nào để đọc toàn bộ câu chuyện đằng sau và phóng to chi tiết!
+                </p>
+            </div>
+
+            <!-- Navigation Arrow Controls for Horizontal Gallery -->
+            <div class="flex items-center gap-2 shrink-0">
+                <button onclick="walkGallery(-520)" class="px-4 py-3 rounded-xl bg-zinc-900 hover:bg-amber-500/20 border border-amber-500/30 text-amber-200 text-sm font-semibold flex items-center gap-2 transition active:scale-95">
+                    ◀ Lùi lại
+                </button>
+                <button onclick="walkGallery(520)" class="px-5 py-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-sm font-semibold flex items-center gap-2 transition active:scale-95 shadow-lg shadow-amber-500/10">
+                    Đi tiếp hành lang ▶
+                </button>
+                <label class="px-3.5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-medium cursor-pointer transition" title="Tải 10 ảnh gốc của bạn lên cùng lúc">
+                    📷 Thay 10 ảnh
+                    <input type="file" multiple accept="image/*" class="hidden" onchange="handleBulkUpload(event)">
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         4. MAIN GALLERY HALLWAY (10 EXHIBITS)
+         ========================================== -->
+    <main class="relative z-10 flex-1 flex flex-col justify-between">
+        <!-- Gallery Wall Container -->
+        <div id="galleryWall" class="gallery-hall-scroll flex items-stretch gap-12 sm:gap-16 overflow-x-auto px-6 sm:px-16 pt-16 pb-12 min-h-[680px]">
+            <!-- Dynamic Exhibits #01 to #10 will be injected here via JS -->
+        </div>
+
+        <!-- Museum Velvet Rope & Marble Floor Reflection -->
+        <div class="marble-floor py-5 px-6 relative z-20">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <span class="w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_10px_#d4af37]"></span>
+                    <div class="velvet-rope flex-1 sm:w-48"></div>
+                    <span class="w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_10px_#d4af37]"></span>
+                    <span class="text-xs text-zinc-400 uppercase tracking-widest ml-2">Vui lòng không chạm tay vào hiện vật • Chạm vào tranh để xem chi tiết</span>
+                </div>
+                <div class="text-xs text-amber-300/80 font-mono">
+                    TIẾN ĐỘ THAM QUAN: <span id="progressCounter">10 / 10 HIỆN VẬT TRƯNG BÀY</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==========================================
+         5. THE FINAL ROOM: CĂN PHÒNG TƯƠNG LAI & BỨC THƯ TỈNH NGỘ
+         ========================================== -->
+    <section id="final-room" class="relative z-10 py-20 px-4 sm:px-8 bg-gradient-to-b from-[#08080a] via-[#120f0a] to-[#070709] border-t border-amber-500/30">
+        <div class="max-w-5xl mx-auto space-y-12">
+
+            <!-- Section Heading -->
+            <div class="text-center space-y-3">
+                <span class="px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs uppercase tracking-[0.2em]">
+                    🌟 CĂN PHÒNG CUỐI CÙNG • CỘT MỐC TUỔI MỚI 27/10/2026
+                </span>
+                <h2 class="font-cinzel text-3xl sm:text-5xl font-bold gold-gradient-text">
+                    PHÒNG TỈNH NGỘ & BẢN LĨNH TUỔI MỚI
+                </h2>
+                <p class="text-zinc-400 max-w-xl mx-auto text-sm sm:text-base">
+                    Sau tất cả những kỷ niệm vui buồn, đây là nơi thằng em Vương Quốc Mạnh tự tay khép lại những cuộc chơi vô bổ, thổi nến đón tuổi mới và đọc bức tâm thư từ người anh!
+                </p>
+            </div>
+
+            <!-- Interactive Step 1: Detox Ritual & Birthday Cake -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left Column: Interactive "Gỡ App Cờ Bạc & Đèn Mờ" Detox Panel -->
+                <div class="lg:col-span-5 bg-[#121217] border border-amber-500/25 rounded-2xl p-6 space-y-5 shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                        <h3 class="font-serif-luxury text-xl font-bold text-amber-300">
+                            🛡️ Nghi Thức Cột Mốc Tuổi Mới
+                        </h3>
+                        <span id="detoxStatusBadge" class="px-2.5 py-1 rounded-full text-xs bg-red-500/20 text-red-300 border border-red-500/30 font-semibold">
+                            Chưa hoàn tất
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                        Trước khi thổi nến sinh nhật, hãy bấm dứt khoát 3 nút bên dưới để cam kết làm lại từ đầu ở tuổi mới:
+                    </p>
+
+                    <div class="space-y-3">
+                        <button id="detoxBtn1" onclick="completeDetoxStep(1)" class="w-full flex items-center justify-between p-3.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 border border-red-500/30 text-left transition group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">🎰</span>
+                                <div>
+                                    <div class="text-sm font-bold text-zinc-200 group-hover:text-amber-200">Gỡ sạch App Cờ Bạc & Sòng Ảo</div>
+                                    <div class="text-xs text-zinc-500">Không nướng tiền mồ hôi nước mắt vào cú "tất tay"</div>
+                                </div>
+                            </div>
+                            <span class="status-tag px-2.5 py-1 rounded bg-red-500/20 text-red-300 text-xs font-mono">BẤM GỠ</span>
+                        </button>
+
+                        <button id="detoxBtn2" onclick="completeDetoxStep(2)" class="w-full flex items-center justify-between p-3.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 border border-red-500/30 text-left transition group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">🚫</span>
+                                <div>
+                                    <div class="text-sm font-bold text-zinc-200 group-hover:text-amber-200">Cai cớ "Mỏi Người / Trúng Gió"</div>
+                                    <div class="text-xs text-zinc-500">Tạm biệt xông hơi, massage đèn mờ rỗng túi</div>
+                                </div>
+                            </div>
+                            <span class="status-tag px-2.5 py-1 rounded bg-red-500/20 text-red-300 text-xs font-mono">DỨT KHOÁT</span>
+                        </button>
+
+                        <button id="detoxBtn3" onclick="completeDetoxStep(3)" class="w-full flex items-center justify-between p-3.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 border border-red-500/30 text-left transition group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">💪</span>
+                                <div>
+                                    <div class="text-sm font-bold text-zinc-200 group-hover:text-amber-200">Đầu Lạnh & Đôi Tay Làm Ăn Chân Chính</div>
+                                    <div class="text-xs text-zinc-500">Sống lành mạnh, đàng hoàng để gia đình yên tâm</div>
+                                </div>
+                            </div>
+                            <span class="status-tag px-2.5 py-1 rounded bg-red-500/20 text-red-300 text-xs font-mono">CAM KẾT</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Birthday Cake & Candle Blowing -->
+                <div class="lg:col-span-7 bg-[#121217] border border-amber-500/25 rounded-2xl p-6 sm:p-8 text-center flex flex-col items-center justify-center relative overflow-hidden shadow-2xl">
+                    <div class="text-xs uppercase tracking-widest text-amber-400/80 mb-2">HAPPY BIRTHDAY • 27/10/2026</div>
+                    <h3 class="font-cinzel text-xl sm:text-2xl font-bold text-white mb-6">
+                        BÁNH SINH NHẬT VƯƠNG QUỐC MẠNH
+                    </h3>
+
+                    <!-- Interactive SVG Birthday Cake -->
+                    <div class="relative my-4 select-none cursor-pointer" onclick="blowCandles()">
+                        <!-- Glow behind candles -->
+                        <div id="candleGlow" class="absolute -top-10 left-1/2 -translate-x-1/2 w-48 h-28 bg-amber-400/25 blur-2xl rounded-full transition-opacity duration-700"></div>
+
+                        <svg width="260" height="210" viewBox="0 0 260 210" class="mx-auto drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)]">
+                            <!-- Cake Plate -->
+                            <ellipse cx="130" cy="190" rx="115" ry="14" fill="#27272a" stroke="#d4af37" stroke-width="2"/>
+                            
+                            <!-- Bottom Tier -->
+                            <rect x="40" y="125" width="180" height="62" rx="12" fill="#3f2318" stroke="#d4af37" stroke-width="2"/>
+                            <!-- Bottom Frosting Drips -->
+                            <path d="M40 135 Q55 150 70 135 Q85 152 100 135 Q115 150 130 135 Q145 152 160 135 Q175 150 190 135 Q205 150 220 135 L220 125 L40 125 Z" fill="#f3e5ab"/>
+                            <text x="130" y="168" text-anchor="middle" fill="#f3e5ab" font-family="Cinzel, serif" font-weight="bold" font-size="13" letter-spacing="2">27 • 10 • 2026</text>
+
+                            <!-- Top Tier -->
+                            <rect x="65" y="75" width="130" height="52" rx="10" fill="#5b2c1d" stroke="#d4af37" stroke-width="2"/>
+                            <!-- Top Frosting Drips -->
+                            <path d="M65 85 Q80 98 95 85 Q112 100 130 85 Q148 100 165 85 Q180 98 195 85 L195 75 L65 75 Z" fill="#fde68a"/>
+                            <text x="130" y="111" text-anchor="middle" fill="#ffffff" font-family="Plus Jakarta Sans, sans-serif" font-weight="bold" font-size="12">QUỐC MẠNH</text>
+
+                            <!-- 3 Candles -->
+                            <g id="candlesGroup">
+                                <!-- Candle 1 -->
+                                <rect x="92" y="38" width="10" height="37" rx="3" fill="#fef08a" stroke="#ca8a04" stroke-width="1"/>
+                                <line x1="97" y1="38" x2="97" y2="32" stroke="#52525b" stroke-width="2"/>
+                                <!-- Candle 2 (Center) -->
+                                <rect x="125" y="32" width="10" height="43" rx="3" fill="#fef08a" stroke="#ca8a04" stroke-width="1"/>
+                                <line x1="130" y1="32" x2="130" y2="26" stroke="#52525b" stroke-width="2"/>
+                                <!-- Candle 3 -->
+                                <rect x="158" y="38" width="10" height="37" rx="3" fill="#fef08a" stroke="#ca8a04" stroke-width="1"/>
+                                <line x1="163" y1="38" x2="163" y2="32" stroke="#52525b" stroke-width="2"/>
+                            </g>
+
+                            <!-- Candle Flames -->
+                            <g id="flamesGroup">
+                                <g class="candle-flame" style="transform-origin: 97px 32px;">
+                                    <path d="M97 12 C90 22 92 32 97 32 C102 32 104 22 97 12 Z" fill="#f97316"/>
+                                    <path d="M97 18 C94 24 95 31 97 31 C99 31 100 24 97 18 Z" fill="#fef08a"/>
+                                </g>
+                                <g class="candle-flame" style="transform-origin: 130px 26px;">
+                                    <path d="M130 5 C122 16 124 26 130 26 C136 26 138 16 130 5 Z" fill="#f97316"/>
+                                    <path d="M130 12 C126 19 127 25 130 25 C133 25 134 19 130 12 Z" fill="#fef08a"/>
+                                </g>
+                                <g class="candle-flame" style="transform-origin: 163px 32px;">
+                                    <path d="M163 12 C156 22 158 32 163 32 C168 32 170 22 163 12 Z" fill="#f97316"/>
+                                    <path d="M163 18 C160 24 161 31 163 31 C165 31 166 24 163 18 Z" fill="#fef08a"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <p id="candleStatusText" class="text-sm text-amber-200/90 mb-4">
+                        ✨ Nhấp vào chiếc bánh hoặc bấm nút bên dưới để thổi nến đón tuổi mới!
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                        <button id="blowCandleBtn" onclick="blowCandles()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-zinc-950 font-bold text-sm shadow-lg shadow-amber-500/25 hover:brightness-110 active:scale-95 transition">
+                            💨 THỔI NẾN & BẮN PHÁO GIẤY CHÚC MỪNG
+                        </button>
+                        <button id="relightCandleBtn" onclick="relightCandles()" class="hidden px-4 py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-amber-300 text-xs font-semibold border border-amber-500/30 transition">
+                            🔥 Thắp lại nến
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 6. THE HEARTFELT FINAL LETTER PLAQUE
+                 ========================================== -->
+            <div class="relative rounded-3xl p-1 bg-gradient-to-br from-amber-500/60 via-yellow-200/30 to-amber-700/60 shadow-[0_0_90px_rgba(212,175,55,0.2)]">
+                <div class="bg-[#0e0d12] rounded-[22px] p-6 sm:p-12 relative overflow-hidden">
+                    <!-- Decorative Seal Watermark -->
+                    <div class="absolute -right-10 -bottom-10 text-[160px] opacity-5 pointer-events-none select-none font-cinzel">
+                        MẠNH
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-500/20 pb-6 mb-8">
+                        <div>
+                            <div class="text-xs uppercase tracking-[0.25em] text-amber-400 mb-1">BỨC THƯ CUỐI HÀNH TRÌNH</div>
+                            <h3 class="font-serif-luxury text-2xl sm:text-3xl font-bold text-white">
+                                Gửi Thằng Em Vương Quốc Mạnh (27/10/2026)
+                            </h3>
+                        </div>
+                        <button onclick="copyFinalLetter()" id="copyLetterBtn" class="self-start sm:self-auto px-4 py-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-medium transition">
+                            📋 Sao chép lời chúc
+                        </button>
+                    </div>
+
+                    <!-- Exact Final Letter from Brother -->
+                    <div id="finalLetterContent" class="space-y-5 text-zinc-200 text-base sm:text-lg leading-relaxed font-normal select-text">
+                        <p class="text-amber-300 font-semibold text-xl font-serif-luxury italic">
+                            "Chúc mừng sinh nhật thằng em Mạnh!"
+                        </p>
+                        <p>
+                            Bước sang tuổi mới, anh chúc mày sống đúng với cái tên <strong class="text-amber-300">Mạnh</strong> của mình: đủ mạnh mẽ để tự tay gỡ mấy cái app cờ bạc, và đủ mạnh dạn quay đầu từ bỏ những ván cược vô bổ trên mạng. Anh em với nhau khuyên thật lòng, tuổi trẻ cày cuốc kiếm được đồng tiền mồ hôi nước mắt thì giữ lấy mà lo cho tương lai, chứ đừng nướng sạch vào những cú <span class="text-red-400 font-semibold">"tất tay"</span> để làm giàu cho mấy thằng chủ sòng ảo.
+                        </p>
+                        <p>
+                            Năm nay cũng bớt kiếm cớ <span class="italic text-amber-200">"mỏi người"</span> hay <span class="italic text-amber-200">"trúng gió"</span> để đi xông hơi, massage đèn mờ lại; mấy cái trò giải trí tốn kém ấy chỉ tổ làm rỗng túi và bào mòn sức khỏe của mày thôi.
+                        </p>
+                        <p>
+                            Tuổi mới lớn thêm một tuổi rồi, anh mong em có một <strong class="text-amber-300">cái đầu thật lạnh</strong> để dứt khoát với những cám dỗ, <strong class="text-amber-300">đôi tay mạnh</strong> để tập trung làm ăn chân chính thay vì canh nặn bài thâu đêm, và xây dựng một lối sống lành mạnh, đàng hoàng để gia đình đỡ phải lo nghĩ.
+                        </p>
+                        <p class="text-amber-200 font-semibold pt-2 border-t border-zinc-800/80">
+                            Coi tuổi mới này là cột mốc để làm lại từ đầu nhé em trai, chúc Mạnh sinh nhật vui vẻ, sớm tỉnh ngộ và bản lĩnh hơn!
+                        </p>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-amber-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-zinc-400">
+                        <div>
+                            🖋️ <span class="text-amber-300 font-semibold">Người gửi:</span> Anh em chí cốt từ thời IEM Kraków 2026 & Dream Team Discord
+                        </div>
+                        <div class="font-mono text-amber-400/90">
+                            NIÊN KHÓA KỶ NIỆM: 2026 • VƯƠNG QUỐC MẠNH
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==========================================
+         7. ARTWORK LIGHTBOX / MUSEUM INSPECTOR MODAL
+         ========================================== -->
+    <div id="exhibitModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto" onclick="closeModalOnBackdrop(event)">
+        <div class="max-w-4xl w-full bg-[#121218] border border-amber-500/40 rounded-2xl overflow-hidden shadow-[0_0_90px_rgba(0,0,0,0.95)] my-auto">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-6 py-4 bg-[#181820] border-b border-amber-500/20">
+                <div class="flex items-center gap-3">
+                    <span id="modalCode" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-xs font-bold">
+                        HIỆN VẬT #01
+                    </span>
+                    <span id="modalHall" class="text-xs text-zinc-400 uppercase tracking-wider"></span>
+                </div>
+                <button onclick="closeExhibitModal()" class="w-9 h-9 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 flex items-center justify-center text-lg font-bold transition">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="grid grid-cols-1 lg:grid-cols-12">
+                <!-- Artwork Visual Preview -->
+                <div class="lg:col-span-7 bg-[#09090c] p-5 sm:p-8 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-zinc-800">
+                    <div id="modalArtworkContainer" class="w-full rounded-lg overflow-hidden border-2 border-amber-500/40 shadow-2xl">
+                        <!-- Rendered Artwork or Uploaded Image -->
+                    </div>
+                    <div class="mt-4 flex items-center justify-between w-full gap-2">
+                        <span id="modalFilename" class="text-[11px] font-mono text-zinc-500"></span>
+                        <label class="px-3 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-xs font-medium cursor-pointer transition">
+                            📷 Chọn ảnh gốc từ máy cho khung này
+                            <input type="file" accept="image/*" class="hidden" onchange="replaceCurrentModalImage(event)">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Artwork Story & Plaque -->
+                <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                    <div class="space-y-4">
+                        <div id="modalDate" class="text-xs text-amber-400 font-mono uppercase tracking-widest"></div>
+                        <h3 id="modalTitle" class="font-serif-luxury text-2xl font-bold text-white leading-snug"></h3>
+                        <div class="w-12 h-0.5 bg-amber-500/50"></div>
+                        <p id="modalStory" class="text-zinc-300 text-sm sm:text-base leading-relaxed select-text"></p>
+                    </div>
+
+                    <!-- Prev / Next Exhibit Buttons inside Modal -->
+                    <div class="pt-4 border-t border-zinc-800 flex items-center justify-between gap-2">
+                        <button onclick="navigateModal(-1)" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition">
+                            ◀ Tác phẩm trước
+                        </button>
+                        <button onclick="navigateModal(1)" class="px-4 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-200 text-xs font-semibold transition">
+                            Tác phẩm tiếp theo ▶
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Canvas Overlay -->
+    <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- ==========================================
+         8. APPLICATION DATA & INTERACTIVE SCRIPTS
+         ========================================== -->
+    <script>
+        /* -----------------------------------------------------------
+           DATA: ALL 10 EXHIBITS WITH EXACT STORIES & 1:1 RECREATIONS
+           ----------------------------------------------------------- */
+        const EXHIBITS = [
+            {
+                id: 1,
+                code: "HIỆN VẬT #01",
+                hallId: "hall-1",
+                hallName: "Sảnh I: Khởi Nguồn Kèo CS2 IEM Kraków 2026",
+                title: "Nổ Tip CSGO & Chạy Nợ Giữa Đêm",
+                date: "20/02/2026 - 02/05/2026 • IEM Kraków 2026",
+                filename: "image_17755c.png",
+                story: "Đây là lần đầu anh quen em (2/5/2026) qua việc đọc cho những dự đoán chuẩn xác từ Esport CS2 giải Intel Extreme Masters (IEM) Kraków 2026. Không hiểu sao thời đấy anh vào mỗi mã 100k mà em vẫn tin tưởng 1 thằng random trên mạng mà vào đến tận tiền triệu! Những trận đấu căng thẳng qua từng giây anh vẫn còn nhớ như G2 vs MOUZ, FURIA vs FUT, NaVi vs The MongolZ, Vitality vs PARIVISION và các trận đấu khác.",
+                renderMock: () => `
+                    <div class="discord-bg p-4 rounded-md text-left space-y-3 border border-zinc-700 shadow-inner min-h-[240px] flex flex-col justify-center">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-full bg-red-700 flex items-center justify-center text-white font-bold text-xs shrink-0">S1</div>
+                            <div>
+                                <div class="flex items-baseline gap-2">
+                                    <span class="font-bold text-white text-sm">s1natraa</span>
+                                    <span class="text-[11px] text-zinc-400">20/02/2026 8:00 CH</span>
+                                </div>
+                                <div class="text-sm mt-0.5"><span class="discord-mention">@DNTT</span> nổ tip csgo đi 😭😂</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 pl-2 border-l-2 border-zinc-600">
+                            <div class="w-9 h-9 rounded-full bg-indigo-900 flex items-center justify-center text-cyan-300 font-bold text-xs shrink-0">🪽</div>
+                            <div>
+                                <div class="text-[11px] text-zinc-400 mb-0.5">↳ <span class="text-zinc-300">@s1natraa</span> <span class="discord-mention">@DNTT</span> nổ tip csgo đi</div>
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="font-bold text-white text-sm">DNTT</span>
+                                    <span class="px-1.5 py-0.2 bg-zinc-700 rounded text-[10px] text-amber-300 font-semibold">🐝 VIT</span>
+                                    <span class="text-[11px] text-zinc-400">20/02/2026 8:01 CH</span>
+                                </div>
+                                <div class="text-sm mt-0.5 text-zinc-100">10ph nữa vào voice</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-full bg-red-700 flex items-center justify-center text-white font-bold text-xs shrink-0">S1</div>
+                            <div>
+                                <div class="flex items-baseline gap-2">
+                                    <span class="font-bold text-white text-sm">s1natraa</span>
+                                    <span class="text-[11px] text-zinc-400">20/02/2026 8:02 CH</span>
+                                </div>
+                                <div class="text-sm mt-0.5 text-amber-200 font-medium">Tao đang chạy nợ k vào đc đâu</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                code: "HIỆN VẬT #02",
+                hallId: "hall-1",
+                hallName: "Sảnh I: Khởi Nguồn Kèo CS2 IEM Kraków 2026",
+                title: "Cọc Tiền 500k & Lời Cảm Ơn Sau Kèo IEM Kraków",
+                date: "23/02/2026 2:49 CH • G2 vs MOUZ, FURIA vs FUT, NaVi vs The MongolZ",
+                filename: "image_17755b.png",
+                story: "Anh chỉ dám vào mỗi mã 100k văn nghệ mà thằng em tin tưởng một ông anh random trên mạng để phang hẳn tiền triệu. Những trận cầu nghẹt thở từng giây tại IEM Kraków 2026: G2 vs MOUZ, FURIA vs FUT, NaVi vs The MongolZ, Vitality vs PARIVISION... Kết quả là bức ảnh cầm nguyên cọc 500k buộc dây thun vàng huyền thoại kèm câu 'Cảm ơn em nhá'!",
+                renderMock: () => `
+                    <div class="discord-bg p-4 rounded-md text-left space-y-2.5 border border-zinc-700 min-h-[240px]">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-full bg-red-700 flex items-center justify-center text-white font-bold text-xs">S1</div>
+                            <span class="font-bold text-white text-sm">s1natraa</span>
+                            <span class="text-[11px] text-zinc-400">23/02/2026 2:49 CH</span>
+                        </div>
+                        <div class="relative rounded-lg overflow-hidden bg-gradient-to-br from-amber-900/60 via-stone-800 to-zinc-900 p-4 border border-amber-500/30 flex flex-col items-center justify-center h-44">
+                            <!-- Stack of 500k VND representation -->
+                            <div class="relative transform -rotate-12 bg-gradient-to-r from-cyan-800 via-teal-600 to-cyan-700 w-32 h-40 rounded shadow-2xl border-l-8 border-teal-300/60 flex flex-col items-center justify-between p-2">
+                                <div class="w-full h-1 bg-yellow-400/90 rounded-full my-2 shadow"></div>
+                                <div class="text-cyan-100 font-mono font-extrabold text-sm tracking-tighter rotate-90">500.000 VNĐ</div>
+                                <div class="w-full h-1 bg-yellow-400/90 rounded-full my-2 shadow"></div>
+                            </div>
+                            <span class="absolute bottom-2 right-3 text-[10px] bg-black/60 px-2 py-0.5 rounded text-amber-200">Cọc 500k buộc dây thun vàng</span>
+                        </div>
+                        <div class="text-sm text-white font-medium pt-1">Cảm ơn em nhá</div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                code: "HIỆN VẬT #03",
+                hallId: "hall-2",
+                hallName: "Sảnh II: Võ Mồm Cổng Trường & Giấc Mộng Couple Ảo",
+                title: "Lời Tuyên Chiến Cổng Trường & Pha Cụp Pha Đi Vào Lòng Đất",
+                date: "02/03/2026 11:30 SA • nùn ná na na [🔥FUR]",
+                filename: "image_171ff7.png",
+                story: "Lần đầu em biết thằng MU chung trường với em. Lúc chưa gặp mặt thì chụp ảnh cổng trường gáy căng đét: '@Why Always Me oi mày qua cổng này tao chặt chân'. Ấy thế mà sao đến lúc gặp thật ở ngoài em lại cụp pha nhanh như vậy hả Mạnh?!",
+                renderMock: () => `
+                    <div class="discord-bg p-4 rounded-md text-left space-y-2.5 border border-zinc-700 min-h-[240px]">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <div class="w-8 h-8 rounded-full bg-amber-200 text-zinc-900 flex items-center justify-center font-bold text-xs">🐱</div>
+                            <span class="font-bold text-purple-300 text-sm">nùn ná na na</span>
+                            <span class="px-1.5 py-0.5 bg-zinc-700 rounded text-[10px] text-orange-300 font-bold">🔥 FUR</span>
+                            <span class="text-[11px] text-zinc-400">02/03/2026 11:30 SA</span>
+                        </div>
+                        <div class="text-sm text-zinc-100">
+                            <span class="discord-mention">@Why Always Me</span> oi mày qua cổng này tao chặt chân
+                        </div>
+                        <div class="rounded-lg bg-gradient-to-b from-sky-900/40 to-stone-800 border border-zinc-600 h-36 p-3 flex flex-col justify-between relative overflow-hidden">
+                            <div class="flex justify-between items-start">
+                                <span class="px-2 py-0.5 bg-blue-900/80 text-[10px] text-blue-200 rounded border border-blue-400/30">CỔNG TRƯỜNG</span>
+                                <span class="text-xs">🛵 🏍️ 🏢</span>
+                            </div>
+                            <div class="text-center text-xs text-zinc-300 bg-black/50 py-1.5 rounded">
+                                [Ảnh đứng rình cổng trường đòi chặt chân nhưng gặp thật thì cụp pha]
+                            </div>
+                        </div>
+                        <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-800 border border-zinc-600 text-xs">
+                            <span>🤬</span> <span class="text-zinc-300">1</span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                code: "HIỆN VẬT #04",
+                hallId: "hall-2",
+                hallName: "Sảnh II: Võ Mồm Cổng Trường & Giấc Mộng Couple Ảo",
+                title: "Thời Kỳ Ảo Couple & Mua Quần Mấy Triệu Cho Anh Đại Đi Tán Gái",
+                date: "02/03/2026 9:16 CH • Kỷ Niệm Ảo Couple",
+                filename: "image_171b46.png",
+                story: "Nhớ nhỉ những kỉ niệm em Vương Quốc Mạnh ảo couple mà giờ couple đấy còn đâu! Còn mua cả quần cho anh Đại đi tán em tbb, ảo couple đầu tư mua cho anh Đại quần áo mấy triệu bạc...",
+                renderMock: () => `
+                    <div class="discord-bg p-3.5 rounded-md text-left space-y-1.5 border border-zinc-700 min-h-[240px] font-sans">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="w-7 h-7 rounded-full bg-amber-200 text-zinc-900 flex items-center justify-center font-bold text-xs">🐱</div>
+                            <span class="font-bold text-purple-300 text-xs">nùn ná na na</span>
+                            <span class="px-1.5 py-0.2 bg-zinc-700 rounded text-[10px] text-orange-300 font-bold">🔥 FUR</span>
+                            <span class="text-[10px] text-zinc-400">02/03/2026 9:16 CH</span>
+                        </div>
+                        <div class="space-y-1 text-xs text-white font-semibold">
+                            <div><span class="discord-mention">@hiep fpt</span> Khoắc tay kìa thôi ông ơi trả bọn tôi kèo ăn cứt</div>
+                            <div><span class="discord-mention">@hiep fpt</span> Khoắc tay kìa thôi ông ơi trả bọn tôi kèo ăn cứt</div>
+                            <div><span class="discord-mention">@hiep fpt</span> Khoắc tay kìa thôi ông ơi trả bọn tôi kèo ăn cứt</div>
+                            <div><span class="discord-mention">@hiep fpt</span> Khoắc tay kìa thôi ông ơi trả bọn tôi kèo ăn cứt</div>
+                            <div><span class="discord-mention">@hiep fpt</span> Khoắc tay kìa thôi ông ơi trả bọn tôi kèo ăn cứt</div>
+                            <div class="text-zinc-400 font-normal">v</div>
+                            <div><span class="discord-mention">@hiep fpt</span> Khoắc tay kìa thôi ông ơi trả bọn tôi kèo ăn cứt</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                code: "HIỆN VẬT #05",
+                hallId: "hall-2",
+                hallName: "Sảnh II: Võ Mồm Cổng Trường & Giấc Mộng Couple Ảo",
+                title: "Đỉnh Cao Hy Sinh: Mua Đồ Anh Đại Mấy Triệu, Mình Mặc Đồ 200k",
+                date: "18/08/2026 1:45 CH • Sự Tương Phản Nghiệt Ngã",
+                filename: "image_171418.png",
+                story: "Tiếp nối câu chuyện ảo couple: Hào phóng mua cho anh Đại quần áo mấy triệu bạc để đi tán em tbb, rồi đến lúc nhắn tin thì ngậm ngùi thú nhận: 'M dùng đồ xịn quen quần áo nhà t mặc 200 một bộ'!",
+                renderMock: () => `
+                    <div class="discord-bg p-5 rounded-md text-left flex flex-col justify-center border border-zinc-700 min-h-[240px] space-y-4">
+                        <div class="flex items-start gap-3 bg-zinc-900/70 p-4 rounded-xl border border-purple-500/30 shadow-lg">
+                            <div class="w-10 h-10 rounded-full bg-amber-200 text-zinc-900 flex items-center justify-center font-bold text-sm shrink-0">🐱</div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="font-bold text-purple-300 text-sm">nùn ná na na</span>
+                                    <span class="px-1.5 py-0.5 bg-zinc-700 rounded text-[10px] text-orange-300 font-bold">🔥 FUR</span>
+                                    <span class="text-[11px] text-zinc-400">18/08/2026 1:45 CH</span>
+                                </div>
+                                <div class="text-base text-white font-medium leading-snug">
+                                    M dùng đồ xịn quen quần áo nhà t mặc 200 một bộ
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-center text-xs">
+                            <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-2">
+                                <div class="text-zinc-400">Đầu tư cho Anh Đại</div>
+                                <div class="text-amber-300 font-bold text-sm">Vài Triệu VNĐ 💸</div>
+                            </div>
+                            <div class="bg-zinc-800/80 border border-zinc-700 rounded-lg p-2">
+                                <div class="text-zinc-400">Quần áo Mạnh mặc ở nhà</div>
+                                <div class="text-zinc-200 font-bold text-sm">200k / 1 bộ 👕</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                code: "HIỆN VẬT #06",
+                hallId: "hall-3",
+                hallName: "Sảnh III: Kiếp Nạn Đi IRL, Dream Team & Cú Đâm Sau Lưng",
+                title: "Móc Ví Tại Cửa Hàng Nike & Tiếng Tung Hô 'Ôi Goat Ắc Thế'",
+                date: "Livestream IRL Cộng Đồng • Cùng Cậu P & Anh Đại",
+                filename: "image_1708f5.jpg",
+                story: "Là những kỉ niệm khó quên với cộng đồng: Lần em và cậu P dẫn anh Đại đi IRL như những chú chó cho anh Đại — vừa phải hầu hạ và chi tiền, đổi lại được kênh chat tung hô: 'ôi goat ôi goat ôi goat ắc thế ắc thế'!",
+                renderMock: () => `
+                    <div class="bg-zinc-950 rounded-md overflow-hidden border border-zinc-700 min-h-[240px] grid grid-cols-12">
+                        <!-- Store Counter Scene -->
+                        <div class="col-span-8 bg-gradient-to-br from-orange-950/70 via-zinc-900 to-zinc-950 p-3 flex flex-col justify-between relative">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 bg-orange-600 text-white font-bold text-[10px] rounded">NIKE STORE • JUST DO IT</span>
+                                <span class="text-[10px] text-red-400 font-mono animate-pulse">● LIVE IRL</span>
+                            </div>
+                            <div class="my-auto text-center space-y-1 py-4">
+                                <div class="text-3xl">🧥👓👛</div>
+                                <div class="text-xs text-amber-200 font-semibold">Mạnh mặc áo bò đứng quầy thu ngân rút ví</div>
+                                <div class="text-[11px] text-zinc-400">Tay xách túi giấy hầu hạ anh Đại</div>
+                            </div>
+                            <div class="h-3 bg-orange-500/80 rounded-sm w-full"></div>
+                        </div>
+                        <!-- Live Chat Replay -->
+                        <div class="col-span-4 bg-[#0f0f0f] border-l border-zinc-800 p-2 text-left flex flex-col justify-between text-[10px] space-y-1 font-sans">
+                            <div class="text-zinc-400 font-bold border-b border-zinc-800 pb-1">Kênh chat trực tiếp</div>
+                            <div class="space-y-1 text-zinc-300 overflow-hidden">
+                                <div><span class="text-emerald-400">@Khiêm:</span> mua cho a đại 1 cái đai chống gù</div>
+                                <div><span class="text-amber-300">@TheAnh:</span> Quất 2 3 đôi cho anh tao</div>
+                                <div><span class="text-sky-400">@tuanla38:</span> ác</div>
+                                <div><span class="text-pink-400">@TonNy:</span> Ác thế</div>
+                                <div class="bg-amber-500/20 text-amber-200 px-1 py-0.5 rounded font-bold">ôi goat ôi goat ắc thế ắc thế</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                code: "HIỆN VẬT #07",
+                hallId: "hall-3",
+                hallName: "Sảnh III: Kiếp Nạn Đi IRL, Dream Team & Cú Đâm Sau Lưng",
+                title: "Dream Team Huyền Thoại & Vài Trăm Tiếng Treo Voice Discord",
+                date: "CS2 • Valorant • LoL • Kênh Voice 'Vòng Lặp Vô Hạn'",
+                filename: "image_16ab79.jpg",
+                story: "Những kỉ niệm anh em Dream Team chơi game chung với nhau anh vẫn còn nhớ mãi: CS2, Valorant, LoL. Những buổi chơi game có những lúc chửi nhau chia hành lý, nhưng đến giờ mình vẫn chơi chung tuy nhiều người đã đi một hướng khác. Hồi đấy anh em mình toàn trong voice Discord treo đến vài trăm tiếng.",
+                renderMock: () => `
+                    <div class="bg-[#090a0f] p-3 rounded-md border border-zinc-700 min-h-[240px] flex flex-col justify-between">
+                        <div class="grid grid-cols-12 gap-2 flex-1">
+                            <!-- Main Monitor CS2 Lobby -->
+                            <div class="col-span-8 bg-gradient-to-b from-sky-900/50 via-amber-900/30 to-zinc-900 rounded border border-sky-500/40 p-2.5 flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[9px] text-sky-200 font-bold tracking-wider border-b border-white/10 pb-1">
+                                    <span>COUNTER-STRIKE 2 • KHO ĐỒ | CHƠI</span>
+                                    <span class="text-emerald-300">5/5 LOBBY</span>
+                                </div>
+                                <div class="flex items-center justify-around py-2">
+                                    <div class="text-center">
+                                        <div class="text-lg">🥷</div>
+                                        <span class="text-[9px] bg-black/60 px-1 rounded text-amber-200">The Phoenix Suns</span>
+                                    </div>
+                                    <div class="text-center scale-110">
+                                        <div class="text-2xl">🕶️🔫</div>
+                                        <span class="text-[10px] bg-amber-500/30 border border-amber-400 px-1.5 rounded text-white font-bold">👑 D4rW1n</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg">🥷</div>
+                                        <span class="text-[9px] bg-black/60 px-1 rounded text-sky-200">DOCAC</span>
+                                    </div>
+                                </div>
+                                <div class="text-[9px] text-zinc-400 text-right">No Name • LiveByMakingLove</div>
+                            </div>
+                            <!-- Vertical Monitor Discord Voice -->
+                            <div class="col-span-4 bg-[#1e1f22] rounded border border-indigo-500/40 p-2 text-left flex flex-col justify-between text-[9px]">
+                                <div>
+                                    <div class="text-emerald-400 font-bold mb-1">🔊 Vòng Lặp Vô Hạn</div>
+                                    <div class="text-[8px] text-amber-300 font-mono mb-1.5">⏱️ Treo: 240:38:00</div>
+                                    <div class="space-y-1 text-zinc-300">
+                                        <div>🔴 Con ÁC QUỶ</div>
+                                        <div>🟢 DNTT [🐝VIT]</div>
+                                        <div>🟢 kyousuke</div>
+                                        <div>🟢 S0r4baka</div>
+                                    </div>
+                                </div>
+                                <div class="bg-indigo-950/80 p-1 rounded text-[8px] text-indigo-200 text-center">
+                                    Đã Kết Nối Giọng Nói
+                                </div>
+                            </div>
+                        </div>
+                        <!-- RGB Keyboard Glow Bar -->
+                        <div class="mt-2 h-3 rounded bg-gradient-to-r from-pink-500 via-emerald-400 to-cyan-500 opacity-80 shadow-[0_0_12px_rgba(52,211,153,0.6)]"></div>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                code: "HIỆN VẬT #08",
+                hallId: "hall-3",
+                hallName: "Sảnh III: Kiếp Nạn Đi IRL, Dream Team & Cú Đâm Sau Lưng",
+                title: "Khoảnh Khắc Ăn Uống Giữa Kiếp Nạn Hầu Hạ Đi IRL",
+                date: "Kỷ Niệm IRL Cùng Cậu P & Anh Đại • Đổi Lại Mấy Câu 'Ôi Goat'",
+                filename: "image_16aae6.png",
+                story: "Cùng với bức ảnh ở tiệm Nike, đây là khoảnh khắc không thể quên trong chuyến đi IRL hầu hạ và chi tiền cho anh Đại cùng cậu P. Vừa tốn tiền vừa chạy đôn chạy đáo chỉ để đổi lấy mấy dòng chat tung hô 'ôi goat ôi goat ắc thế ắc thế'.",
+                renderMock: () => `
+                    <div class="bg-gradient-to-br from-stone-900 via-amber-950/50 to-zinc-950 p-4 rounded-md border border-zinc-700 min-h-[240px] flex flex-col items-center justify-center relative">
+                        <div class="w-28 h-28 rounded-full bg-amber-500/15 border-2 border-amber-400/40 flex items-center justify-center text-5xl shadow-inner mb-3">
+                            🤓🥢
+                        </div>
+                        <div class="text-sm font-bold text-amber-200">Chân dung Mạnh đeo kính gắp đồ ăn cực nhiệt</div>
+                        <p class="text-xs text-zinc-400 mt-1 max-w-xs text-center">
+                            Nạp năng lượng giữa hành trình đi IRL vừa hầu hạ vừa bao chi phí cùng cậu P và anh Đại
+                        </p>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                code: "HIỆN VẬT #09",
+                hallId: "hall-3",
+                hallName: "Sảnh III: Kiếp Nạn Đi IRL, Dream Team & Cú Đâm Sau Lưng",
+                title: "Cú Đâm Sau Lưng: '4 Con Chó Tối Qua 🌷'",
+                date: "Story Nguyễn Mai Hương • Bài Học Nhớ Đời Về 'Mini Bell Free'",
+                filename: "image_16a7fa.jpg",
+                story: "Ảnh khắc họa rõ nét nhất chuyện em bị 'mini bell free' đâm sau lưng: Trước mặt thì chị chị em em ngọt ngào, mà ngay sau lưng lại chụp ảnh từ phía sau đăng lên Story với dòng chữ '4 Con chó tối qua 🌷'.",
+                renderMock: () => `
+                    <div class="bg-zinc-950 p-3.5 rounded-md border border-zinc-700 min-h-[240px] flex flex-col justify-between relative overflow-hidden">
+                        <!-- Story Header -->
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-pink-500/30 border border-pink-400 flex items-center justify-center text-xs">👩🏻</div>
+                                <div class="text-left">
+                                    <div class="text-xs font-bold text-white">Nguyễn Mai Hương <span class="text-zinc-400 font-normal">5h 🌐</span></div>
+                                    <div class="text-[10px] text-zinc-400">🎵 Hea2t • 因为有你, 世界变得美丽</div>
+                                </div>
+                            </div>
+                            <span class="text-zinc-400 text-xs">🔊 ▶ •••</span>
+                        </div>
+
+                        <!-- 4 Guys Walking Down Stairs Silhouette -->
+                        <div class="my-auto py-4 flex flex-col items-center justify-center space-y-3">
+                            <div class="flex items-end gap-4 text-3xl">
+                                <span>🚶🏻‍♂️</span>
+                                <span>🚶🏻‍♂️</span>
+                                <span>🚶🏻‍♂️</span>
+                                <span>🚶🏼‍♂️</span>
+                            </div>
+                            <div class="bg-white text-zinc-950 font-extrabold text-sm px-4 py-1.5 rounded-lg shadow-lg tracking-wide">
+                                4 Con chó tối qua 🌷
+                            </div>
+                        </div>
+
+                        <div class="text-[10px] text-zinc-500 text-center">
+                            [Trước mặt chị em ngọt xớt, sau lưng lên story gọi hẳn là 4 con chó]
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                code: "HIỆN VẬT #10",
+                hallId: "hall-3",
+                hallName: "Sảnh III: Kiếp Nạn Đi IRL, Dream Team & Cú Đâm Sau Lưng",
+                title: "Đêm Ánh Tím Huyền Thoại Cùng Anh Em Dream Team",
+                date: "Kỷ Niệm Khó Quên • Phê Pha Cùng Dream Team",
+                filename: "image_16a73c.png",
+                story: "Những lần em đi hút bóng, hút cần cùng với anh em trong Dream Team, nhìn lại bức ảnh nằm cười dưới ánh đèn tím huyền thoại này em còn nhớ không? Khép lại những tháng ngày bồng bột, tuổi mới làm lại từ đầu thật lành mạnh nhé em trai!",
+                renderMock: () => `
+                    <div class="bg-gradient-to-r from-indigo-950 via-purple-900 to-fuchsia-950 p-5 rounded-md border border-purple-500/40 min-h-[240px] flex flex-col items-center justify-center relative overflow-hidden shadow-inner">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(192,132,252,0.25),transparent_70%)]"></div>
+                        <div class="relative z-10 text-center space-y-2">
+                            <div class="text-5xl transform -rotate-12">😎👓💜</div>
+                            <div class="text-purple-200 font-bold text-sm tracking-wide">
+                                ÁNH ĐÈN TÍM PHIÊU BỒNG CÙNG DREAM TEAM
+                            </div>
+                            <p class="text-xs text-purple-300/80 max-w-xs">
+                                Khoảnh khắc nằm cười tít mắt dưới ánh đèn neon tím không thể nào quên của tuổi trẻ bồng bột
+                            </p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Store user-uploaded image URLs (keyed by exhibit id)
+        const customImages = {};
+        let currentModalIndex = 0;
+        let isGridView = false;
+        let audioEnabled = true;
+        let detoxCompleted = { 1: false, 2: false, 3: false };
+
+        /* -----------------------------------------------------------
+           RENDER MUSEUM EXHIBITS ON THE WALL
+           ----------------------------------------------------------- */
+        function renderGallery() {
+            const wall = document.getElementById('galleryWall');
+            wall.innerHTML = '';
+
+            let lastHallId = '';
+
+            EXHIBITS.forEach((item, index) => {
+                // Insert Hall Section Divider Banner when changing Halls
+                if (item.hallId !== lastHallId) {
+                    lastHallId = item.hallId;
+                    const divider = document.createElement('div');
+                    divider.id = item.hallId;
+                    divider.className = "shrink-0 w-72 sm:w-80 flex flex-col justify-center items-center text-center p-6 rounded-2xl bg-gradient-to-b from-[#16151d] to-[#0d0d12] border border-amber-500/30 shadow-2xl relative my-auto h-[460px]";
+                    divider.innerHTML = `
+                        <div class="w-12 h-12 rounded-full bg-amber-500/15 border border-amber-500/40 flex items-center justify-center text-amber-300 font-cinzel font-bold text-xl mb-4">
+                            ${item.hallId === 'hall-1' ? 'I' : item.hallId === 'hall-2' ? 'II' : 'III'}
+                        </div>
+                        <div class="text-[11px] uppercase tracking-[0.25em] text-amber-400/80 mb-2">KHU TRƯNG BÀY</div>
+                        <h3 class="font-cinzel text-xl font-bold gold-gradient-text leading-snug mb-4">
+                            ${item.hallName.split(':')[1] || item.hallName}
+                        </h3>
+                        <div class="w-16 h-0.5 bg-amber-500/40 mb-4"></div>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            ${item.hallId === 'hall-1' 
+                                ? 'Nơi khởi nguồn tình anh em từ những mã CS2 100k và lòng tin tiền triệu tại giải IEM Kraków 2026.' 
+                                : item.hallId === 'hall-2' 
+                                ? 'Những pha gáy sớm cổng trường đòi chặt chân và thời kỳ ảo couple mua đồ hiệu cho anh Đại.' 
+                                : 'Hành trình đi IRL bão táp, những đêm thức trắng treo voice Discord cùng Dream Team và bài học nhớ đời.'}
+                        </p>
+                        <div class="mt-6 text-[11px] text-amber-300/70 font-mono">
+                            TIẾP TỤC DẠO BƯỚC ➔
+                        </div>
+                    `;
+                    wall.appendChild(divider);
+                }
+
+                // Create Exhibit Column
+                const card = document.createElement('div');
+                card.className = "shrink-0 w-[340px] sm:w-[420px] flex flex-col justify-between relative pt-6 group";
+
+                const customImgSrc = customImages[item.id] || item.filename;
+
+                card.innerHTML = `
+                    <!-- Overhead Ceiling Lamp & Spotlight Cone -->
+                    <div class="lamp-fixture"></div>
+                    <div class="spotlight-cone"></div>
+
+                    <!-- Gold Framed Painting -->
+                    <div onclick="openExhibitModal(${index})" class="museum-frame rounded-lg p-3 sm:p-4 cursor-pointer relative z-10">
+                        <div class="flex items-center justify-between mb-2 px-1">
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-amber-300/90 font-semibold">${item.code}</span>
+                            <span class="text-[10px] text-zinc-400 truncate max-w-[200px]">${item.date}</span>
+                        </div>
+
+                        <!-- Artwork Canvas Area (Tries real image file first, falls back to custom 1:1 visual mock) -->
+                        <div class="relative rounded overflow-hidden bg-zinc-950">
+                            <img 
+                                src="${customImgSrc}" 
+                                alt="${item.title}" 
+                                class="w-full h-[250px] object-cover object-center block"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                            />
+                            <div style="display:none;">
+                                ${item.renderMock()}
+                            </div>
+
+                            <!-- Hover Overlay Hint -->
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
+                                <span class="px-4 py-2 rounded-full bg-amber-500 text-zinc-950 font-bold text-xs shadow-lg transform translate-y-2 group-hover:translate-y-0 transition">
+                                    🔍 Xem Tranh & Đọc Câu Chuyện
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Museum Brass Plaque Below Frame -->
+                    <div onclick="openExhibitModal(${index})" class="brass-plaque mt-5 rounded-xl p-4 sm:p-5 cursor-pointer z-10 hover:border-amber-400/80 transition">
+                        <div class="flex items-center justify-between gap-2 mb-1.5">
+                            <span class="text-[11px] font-mono text-amber-400 font-bold">${item.code}</span>
+                            <label onclick="event.stopPropagation()" class="text-[11px] text-zinc-400 hover:text-amber-300 cursor-pointer transition underline">
+                                📷 Đổi ảnh gốc
+                                <input type="file" accept="image/*" class="hidden" onchange="uploadSingleImage(event, ${item.id})">
+                            </label>
+                        </div>
+                        <h4 class="font-serif-luxury text-lg font-bold text-amber-100 mb-2 line-clamp-1">
+                            ${item.title}
+                        </h4>
+                        <p class="text-xs sm:text-sm text-zinc-300/90 leading-relaxed line-clamp-4">
+                            "${item.story}"
+                        </p>
+                    </div>
+                `;
+
+                wall.appendChild(card);
+            });
+
+            // Add Final Walk-To-Birthday-Room Portal Card at the end of Hallway
+            const endPortal = document.createElement('div');
+            endPortal.className = "shrink-0 w-80 sm:w-96 flex flex-col justify-center items-center text-center p-8 rounded-2xl bg-gradient-to-br from-amber-500/20 via-[#15130d] to-zinc-950 border-2 border-amber-500/50 shadow-[0_0_50px_rgba(212,175,55,0.2)] my-auto h-[480px]";
+            endPortal.innerHTML = `
+                <div class="text-5xl mb-4 animate-bounce">🎂</div>
+                <span class="text-xs uppercase tracking-[0.2em] text-amber-300 font-semibold">ĐIỂM CUỐI HÀNH LANG</span>
+                <h3 class="font-cinzel text-2xl font-bold gold-gradient-text mt-2 mb-3">
+                    CĂN PHÒNG TƯƠNG LAI & BỨC TÂM THƯ
+                </h3>
+                <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
+                    Bạn đã đi qua trọn vẹn 10 bức tranh kỷ niệm của Vương Quốc Mạnh. Hãy bước vào căn phòng cuối cùng để thổi nến và đọc bức thư chúc mừng sinh nhật!
+                </p>
+                <button onclick="scrollToZone('final-room')" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-zinc-950 font-bold text-sm shadow-lg hover:brightness-110 transition">
+                    BƯỚC VÀO PHÒNG THỔI NẾN ➔
+                </button>
+            `;
+            wall.appendChild(endPortal);
+        }
+
+        /* -----------------------------------------------------------
+           ENTRANCE LOBBY & AUDIO CHIME LOGIC
+           ----------------------------------------------------------- */
+        function enterMuseum(bypass = false) {
+            const input = document.getElementById('passcodeInput').value.trim();
+            const err = document.getElementById('passError');
+
+            if (bypass || input === '2710' || input === '27102026' || input === '27/10/2026') {
+                err.classList.add('hidden');
+                const lobby = document.getElementById('lobbyOverlay');
+                lobby.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => lobby.classList.add('hidden'), 650);
+                playMuseumWelcomeChord();
+            } else {
+                err.classList.remove('hidden');
+            }
+        }
+
+        function playMuseumWelcomeChord() {
+            if (!audioEnabled || typeof Tone === 'undefined') return;
+            try {
+                Tone.start();
+                const synth = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: { type: "triangle" },
+                    envelope: { attack: 0.08, decay: 0.4, sustain: 0.2, release: 1.5 }
+                }).toDestination();
+                synth.volume.value = -10;
+                const now = Tone.now();
+                synth.triggerAttackRelease(["C4", "E4", "G4", "B4"], "2n", now);
+                synth.triggerAttackRelease(["D4", "G4", "B4", "D5"], "2n", now + 0.45);
+            } catch (e) {
+                // Ignore audio context restrictions if not ready
+            }
+        }
+
+        function playBirthdayMelody() {
+            if (!audioEnabled || typeof Tone === 'undefined') return;
+            try {
+                Tone.start();
+                const synth = new Tone.Synth({
+                    oscillator: { type: "sine" },
+                    envelope: { attack: 0.02, decay: 0.2, sustain: 0.3, release: 0.6 }
+                }).toDestination();
+                synth.volume.value = -8;
+                const now = Tone.now();
+                const notes = [
+                    ["G4", 0], ["G4", 0.3], ["A4", 0.6], ["G4", 1.0], ["C5", 1.4], ["B4", 1.8],
+                    ["G4", 2.5], ["G4", 2.8], ["A4", 3.1], ["G4", 3.5], ["D5", 3.9], ["C5", 4.3]
+                ];
+                notes.forEach(([note, offset]) => {
+                    synth.triggerAttackRelease(note, "8n", now + offset);
+                });
+            } catch (e) {}
+        }
+
+        function toggleBirthdayChime() {
+            audioEnabled = !audioEnabled;
+            const btn = document.getElementById('audioToggleBtn');
+            btn.textContent = audioEnabled ? '🔊 Nhạc: Bật' : '🔇 Nhạc: Tắt';
+            if (audioEnabled) playBirthdayMelody();
+        }
+
+        /* -----------------------------------------------------------
+           GALLERY NAVIGATION & LAYOUT SWITCHING
+           ----------------------------------------------------------- */
+        function walkGallery(deltaX) {
+            const wall = document.getElementById('galleryWall');
+            wall.scrollBy({ left: deltaX, behavior: 'smooth' });
+        }
+
+        function scrollToZone(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            if (elementId === 'final-room') {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                const wall = document.getElementById('galleryWall');
+                wall.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    el.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+                }, 300);
+            }
+        }
+
+        function toggleLayoutMode() {
+            isGridView = !isGridView;
+            const wall = document.getElementById('galleryWall');
+            const btn = document.getElementById('layoutToggleBtn');
+            if (isGridView) {
+                wall.classList.remove('overflow-x-auto', 'flex-nowrap');
+                wall.classList.add('flex-wrap', 'justify-center');
+                btn.textContent = '🖼️ Chế độ: Xem Toàn Cảnh';
+            } else {
+                wall.classList.add('overflow-x-auto');
+                wall.classList.remove('flex-wrap', 'justify-center');
+                btn.textContent = '🚶 Chế độ: Đi Dọc Hành Lang';
+            }
+        }
+
+        /* -----------------------------------------------------------
+           IMAGE UPLOAD HANDLERS (SINGLE & BULK 10 IMAGES)
+           ----------------------------------------------------------- */
+        function uploadSingleImage(event, exhibitId) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                customImages[exhibitId] = e.target.result;
+                renderGallery();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleBulkUpload(event) {
+            const files = Array.from(event.target.files);
+            if (!files.length) return;
+
+            files.slice(0, 10).forEach((file, idx) => {
+                // Match by filename if possible, otherwise assign in order 1..10
+                const matchedExhibit = EXHIBITS.find(ex => file.name.includes(ex.filename.split('.')[0]));
+                const targetId = matchedExhibit ? matchedExhibit.id : (idx + 1);
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    customImages[targetId] = e.target.result;
+                    renderGallery();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        /* -----------------------------------------------------------
+           MODAL INSPECTOR LOGIC
+           ----------------------------------------------------------- */
+        function openExhibitModal(index) {
+            currentModalIndex = index;
+            const item = EXHIBITS[index];
+            const modal = document.getElementById('exhibitModal');
+
+            document.getElementById('modalCode').textContent = item.code;
+            document.getElementById('modalHall').textContent = item.hallName;
+            document.getElementById('modalDate').textContent = item.date;
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalStory').textContent = item.story;
+            document.getElementById('modalFilename').textContent = `File gốc: ${item.filename}`;
+
+            const imgSrc = customImages[item.id] || item.filename;
+            const container = document.getElementById('modalArtworkContainer');
+            container.innerHTML = `
+                <img 
+                    src="${imgSrc}" 
+                    alt="${item.title}" 
+                    class="w-full max-h-[460px] object-contain mx-auto bg-black block"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                />
+                <div style="display:none;" class="p-2">
+                    ${item.renderMock()}
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeExhibitModal() {
+            const modal = document.getElementById('exhibitModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function closeModalOnBackdrop(event) {
+            if (event.target.id === 'exhibitModal') {
+                closeExhibitModal();
+            }
+        }
+
+        function navigateModal(dir) {
+            const nextIdx = (currentModalIndex + dir + EXHIBITS.length) % EXHIBITS.length;
+            openExhibitModal(nextIdx);
+        }
+
+        function replaceCurrentModalImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const currentExhibit = EXHIBITS[currentModalIndex];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                customImages[currentExhibit.id] = e.target.result;
+                renderGallery();
+                openExhibitModal(currentModalIndex);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        /* -----------------------------------------------------------
+           DETOX RITUAL & CANDLE BLOWING + CONFETTI
+           ----------------------------------------------------------- */
+        function completeDetoxStep(stepNum) {
+            detoxCompleted[stepNum] = true;
+            const btn = document.getElementById(`detoxBtn${stepNum}`);
+            btn.classList.remove('border-red-500/30');
+            btn.classList.add('border-emerald-500/50', 'bg-emerald-950/20');
+            const tag = btn.querySelector('.status-tag');
+            tag.className = "status-tag px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 text-xs font-mono font-bold";
+            tag.textContent = "✓ ĐÃ XONG";
+
+            if (detoxCompleted[1] && detoxCompleted[2] && detoxCompleted[3]) {
+                const badge = document.getElementById('detoxStatusBadge');
+                badge.className = "px-2.5 py-1 rounded-full text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold";
+                badge.textContent = "✓ Đủ Bản Lĩnh Tuổi Mới!";
+                launchConfetti();
+            }
+        }
+
+        function blowCandles() {
+            const flames = document.getElementById('flamesGroup');
+            const glow = document.getElementById('candleGlow');
+            const statusText = document.getElementById('candleStatusText');
+            const blowBtn = document.getElementById('blowCandleBtn');
+            const relightBtn = document.getElementById('relightCandleBtn');
+
+            flames.classList.add('hidden');
+            glow.classList.add('opacity-0');
+            statusText.innerHTML = "🎉 <strong class='text-amber-300'>CHÚC MỪNG SINH NHẬT VƯƠNG QUỐC MẠNH (27/10/2026)!</strong> Tuổi mới tỉnh ngộ, bản lĩnh và thành công!";
+            blowBtn.classList.add('hidden');
+            relightBtn.classList.remove('hidden');
+
+            playBirthdayMelody();
+            launchConfetti();
+        }
+
+        function relightCandles() {
+            document.getElementById('flamesGroup').classList.remove('hidden');
+            document.getElementById('candleGlow').classList.remove('opacity-0');
+            document.getElementById('candleStatusText').textContent = "✨ Nhấp vào chiếc bánh hoặc bấm nút bên dưới để thổi nến đón tuổi mới!";
+            document.getElementById('blowCandleBtn').classList.remove('hidden');
+            document.getElementById('relightCandleBtn').classList.add('hidden');
+        }
+
+        function copyFinalLetter() {
+            const text = document.getElementById('finalLetterContent').innerText;
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const btn = document.getElementById('copyLetterBtn');
+            btn.textContent = "✓ Đã sao chép bức thư!";
+            setTimeout(() => {
+                btn.textContent = "📋 Sao chép lời chúc";
+            }, 2500);
+        }
+
+        /* -----------------------------------------------------------
+           CONFETTI & AMBIENT GOLD DUST PARTICLES
+           ----------------------------------------------------------- */
+        function launchConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const pieces = Array.from({ length: 130 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                w: Math.random() * 10 + 5,
+                h: Math.random() * 6 + 4,
+                color: ['#d4af37', '#fef08a', '#f59e0b', '#ef4444', '#10b981', '#ffffff'][Math.floor(Math.random() * 6)],
+                vy: Math.random() * 4 + 2.5,
+                vx: (Math.random() - 0.5) * 3,
+                angle: Math.random() * 360,
+                spin: (Math.random() - 0.5) * 8
+            }));
+
+            let frame = 0;
+            function drawConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    p.y += p.vy;
+                    p.x += p.vx;
+                    p.angle += p.spin;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.angle * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                });
+                frame++;
+                if (frame < 220) {
+                    requestAnimationFrame(drawConfetti);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            drawConfetti();
+        }
+
+        function initAmbientDust() {
+            const canvas = document.getElementById('dustCanvas');
+            const ctx = canvas.getContext('2d');
+            let w = (canvas.width = window.innerWidth);
+            let h = (canvas.height = window.innerHeight);
+
+            window.addEventListener('resize', () => {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            });
+
+            const particles = Array.from({ length: 45 }, () => ({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 1.8 + 0.5,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: -Math.random() * 0.35 - 0.1,
+                alpha: Math.random() * 0.65 + 0.15
+            }));
+
+            function animateDust() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.y < 0) p.y = h;
+                    if (p.x < 0) p.x = w;
+                    if (p.x > w) p.x = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(212, 175, 55, ${p.alpha})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animateDust);
+            }
+            animateDust();
+        }
+
+        // Keyboard navigation support for Exhibit Modal & Hallway
+        window.addEventListener('keydown', (e) => {
+            const modalOpen = !document.getElementById('exhibitModal').classList.contains('hidden');
+            if (modalOpen) {
+                if (e.key === 'Escape') closeExhibitModal();
+                if (e.key === 'ArrowRight') navigateModal(1);
+                if (e.key === 'ArrowLeft') navigateModal(-1);
+            }
+        });
+
+        window.onload = function () {
+            renderGallery();
+            initAmbientDust();
+        };
+    </script>
+</body>
+</html>
