@@ -5,7 +5,7 @@ import { HeroSection } from './components/HeroSection';
 import { MuseumHallway } from './components/MuseumHallway';
 import { SecretBirthdayRoom } from './components/SecretBirthdayRoom';
 import { ArtworkModal } from './components/ArtworkModal';
-import { MusicPlayer } from './components/MusicPlayer';
+import { MusicPlayer, MusicPlayerHandle } from './components/MusicPlayer';
 import { AmbientDustCanvas } from './components/AmbientDustCanvas';
 import { FireworksCanvas, FireworksHandle } from './components/FireworksCanvas';
 import { LobbyGate } from './components/LobbyGate';
@@ -14,19 +14,23 @@ export const App: React.FC = () => {
   const [hasEntered, setHasEntered] = useState<boolean>(false);
   const [isGridView, setIsGridView] = useState<boolean>(false);
   const [activeModalIndex, setActiveModalIndex] = useState<number | null>(null);
-  const [customImages, setCustomImages] = useState<Record<number, string>>({});
-  const [autoPlayMusic, setAutoPlayMusic] = useState<boolean>(false);
 
   const fireworksRef = useRef<FireworksHandle>(null);
+  const musicPlayerRef = useRef<MusicPlayerHandle>(null);
 
   const handleEnterMuseum = () => {
     setHasEntered(true);
-    setAutoPlayMusic(true);
+    // Switch to Remix Party track upon entering the exhibition
+    musicPlayerRef.current?.playTrack('party');
+  };
+
+  const handlePlayLobbyMusic = () => {
+    musicPlayerRef.current?.playTrack('lobby');
   };
 
   const handleCelebration = () => {
     fireworksRef.current?.trigger();
-    setAutoPlayMusic(true);
+    musicPlayerRef.current?.playTrack('party');
   };
 
   const handleWalk = (deltaX: number) => {
@@ -57,39 +61,6 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleSingleUpload = (exhibitId: number, file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        setCustomImages((prev) => ({
-          ...prev,
-          [exhibitId]: e.target!.result as string,
-        }));
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleBulkUpload = (files: FileList) => {
-    Array.from(files).slice(0, 10).forEach((file, idx) => {
-      const matched = EXHIBITS_DATA.find((item) =>
-        file.name.toLowerCase().includes(item.imagePath.split('/').pop()?.split('.')[0] || '')
-      );
-      const targetId = matched ? matched.id : idx + 1;
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          setCustomImages((prev) => ({
-            ...prev,
-            [targetId]: e.target!.result as string,
-          }));
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-
   const currentModalItem = activeModalIndex !== null ? EXHIBITS_DATA[activeModalIndex] : null;
 
   return (
@@ -103,7 +74,7 @@ export const App: React.FC = () => {
       {!hasEntered && (
         <LobbyGate
           onEnter={handleEnterMuseum}
-          onBulkUpload={handleBulkUpload}
+          onPlayLobbyMusic={handlePlayLobbyMusic}
         />
       )}
 
@@ -120,16 +91,13 @@ export const App: React.FC = () => {
         exhibits={EXHIBITS_DATA}
         onWalk={handleWalk}
         onScrollToExhibit={handleScrollToExhibit}
-        onBulkUpload={handleBulkUpload}
       />
 
       {/* Main Horizontal Museum Hallway */}
       <MuseumHallway
         exhibits={EXHIBITS_DATA}
-        customImages={customImages}
         isGridView={isGridView}
         onOpenModal={(index) => setActiveModalIndex(index)}
-        onSingleUpload={handleSingleUpload}
         onScrollToFinal={handleScrollToFinal}
       />
 
@@ -142,20 +110,18 @@ export const App: React.FC = () => {
           item={currentModalItem}
           currentIndex={activeModalIndex!}
           totalCount={EXHIBITS_DATA.length}
-          customSrc={customImages[currentModalItem.id]}
           onClose={() => setActiveModalIndex(null)}
           onNavigate={(dir) => {
             const nextIdx = (activeModalIndex! + dir + EXHIBITS_DATA.length) % EXHIBITS_DATA.length;
             setActiveModalIndex(nextIdx);
           }}
-          onReplaceImage={(file) => handleSingleUpload(currentModalItem.id, file)}
         />
       )}
 
-      {/* Floating YouTube Music Player (Khúc Hát Mừng Sinh Nhật Remix • CGfM-PN3qcs) */}
+      {/* Dual-Track Floating YouTube Music Player (Lobby Beat: 08PaKd2Xmxw & Birthday Remix: CGfM-PN3qcs) */}
       <MusicPlayer
-        videoId="CGfM-PN3qcs"
-        autoPlayTrigger={autoPlayMusic}
+        ref={musicPlayerRef}
+        initialTrack="lobby"
       />
 
     </div>

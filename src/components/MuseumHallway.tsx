@@ -7,19 +7,15 @@ import { useHorizontalScroll } from '../hooks/useHorizontalScroll';
 
 interface MuseumHallwayProps {
   exhibits: Exhibit[];
-  customImages: Record<number, string>;
   isGridView: boolean;
   onOpenModal: (index: number) => void;
-  onSingleUpload: (exhibitId: number, file: File) => void;
   onScrollToFinal: () => void;
 }
 
 export const MuseumHallway: React.FC<MuseumHallwayProps> = ({
   exhibits,
-  customImages,
   isGridView,
   onOpenModal,
-  onSingleUpload,
   onScrollToFinal,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,14 +53,14 @@ export const MuseumHallway: React.FC<MuseumHallwayProps> = ({
                   <div className="w-14 h-14 rounded-full bg-amber-500/15 border-2 border-amber-500/50 flex items-center justify-center text-amber-300 font-cinzel font-bold text-2xl mb-4 shadow-inner">
                     {hallInfo.romanNum}
                   </div>
-                  <div className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold mb-2">
+                  <div className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold mb-2 font-mono">
                     KHU TRIỂN LÃM
                   </div>
                   <h3 className="font-cinzel text-xl font-bold bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent leading-snug mb-4">
                     {hallInfo.title}
                   </h3>
                   <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mb-4"></div>
-                  <p className="text-xs text-zinc-400 leading-relaxed max-w-xs">
+                  <p className="text-xs text-zinc-400 leading-relaxed max-w-xs font-sans">
                     {hallInfo.description}
                   </p>
                   <div className="mt-6 text-[11px] text-amber-300/80 font-mono tracking-wider flex items-center gap-1.5">
@@ -77,9 +73,7 @@ export const MuseumHallway: React.FC<MuseumHallwayProps> = ({
               {/* Artwork Masterpiece Card */}
               <ExhibitCard
                 item={item}
-                customSrc={customImages[item.id]}
                 onOpenModal={() => onOpenModal(index)}
-                onSingleUpload={(file) => onSingleUpload(item.id, file)}
               />
             </React.Fragment>
           );
@@ -88,13 +82,13 @@ export const MuseumHallway: React.FC<MuseumHallwayProps> = ({
         {/* End of Hallway Portal to Secret Birthday Room */}
         <div className="shrink-0 w-80 sm:w-96 flex flex-col justify-center items-center text-center p-8 rounded-2xl bg-gradient-to-br from-amber-500/25 via-[#181510] to-[#0a0a0f] border-2 border-amber-500/60 shadow-[0_0_60px_rgba(212,175,55,0.25)] my-auto h-[500px]">
           <div className="text-5xl mb-4 animate-bounce">🎂</div>
-          <span className="text-[11px] uppercase tracking-[0.25em] text-amber-300 font-bold">
+          <span className="text-[11px] uppercase tracking-[0.25em] text-amber-300 font-bold font-mono">
             ĐÍCH ĐẾN HÀNH LANG
           </span>
           <h3 className="font-cinzel text-2xl font-bold bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent mt-2 mb-3">
             CĂN PHÒNG TƯƠNG LAI & BỨC TÂM THƯ
           </h3>
-          <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
+          <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6 font-sans">
             Bạn đã thưởng lãm trọn vẹn 10 bức tranh kỷ niệm của Vương Quốc Mạnh. Hãy bước vào căn phòng cuối cùng để thổi nến đón tuổi mới!
           </p>
           <button
@@ -115,7 +109,7 @@ export const MuseumHallway: React.FC<MuseumHallwayProps> = ({
             <div className="w-3.5 h-9 bg-gradient-to-r from-[#8a6412] via-[#fbf5b7] to-[#8a6412] rounded shadow-md shrink-0"></div>
             <div className="h-1.5 bg-gradient-to-r from-[#580c10] via-[#7f1d1d] to-[#580c10] rounded flex-1 sm:w-60 shadow-md"></div>
             <div className="w-3.5 h-9 bg-gradient-to-r from-[#8a6412] via-[#fbf5b7] to-[#8a6412] rounded shadow-md shrink-0"></div>
-            <span className="text-xs text-zinc-400 uppercase tracking-widest ml-3">
+            <span className="text-xs text-zinc-400 uppercase tracking-widest ml-3 font-sans">
               Khu vực bảo tồn kỷ niệm • Nhấp chuột vào tranh để xem chú thích
             </span>
           </div>

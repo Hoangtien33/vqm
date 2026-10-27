@@ -6,11 +6,10 @@
     <title>THE MUSEUM OF VƯƠNG QUỐC MẠNH | Triển Lãm Ký Ức 27.10.2026</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
+    <!-- Google Fonts with full Vietnamese subset -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Tone.js -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap&subset=vietnamese" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 
     <style>
@@ -30,7 +29,7 @@
         body {
             background-color: var(--museum-black);
             color: #f3f3f6;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Be Vietnam Pro', system-ui, sans-serif;
             overflow-x: hidden;
             margin: 0;
             padding: 0;
@@ -38,7 +37,7 @@
         }
 
         .font-cinzel { font-family: 'Cinzel', serif; }
-        .font-serif-luxury { font-family: 'Playfair Display', serif; }
+        .font-serif-luxury { font-family: 'Playfair Display', Georgia, serif; }
 
         .gallery-scroll-container {
             scroll-behavior: smooth;
@@ -219,7 +218,7 @@
         .discord-mock-box {
             background-color: #313338;
             color: #dbdee1;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Be Vietnam Pro', sans-serif;
             border-radius: 8px;
             padding: 14px;
         }
@@ -248,7 +247,7 @@
     <!-- ==========================================
          1. LOBBY OVERLAY & VIP ADMISSION GATE
          ========================================== -->
-    <div id="entranceGate" class="fixed inset-0 z-50 bg-[#070709] flex items-center justify-center p-4 overflow-y-auto transition-all duration-700">
+    <div id="entranceGate" class="fixed inset-0 z-50 bg-[#070709] flex items-center justify-center p-4 overflow-y-auto transition-all duration-700" onclick="playLobbyMusicIfStopped()">
         <div class="max-w-xl w-full bg-[#101015] border-2 border-amber-500/40 rounded-2xl p-6 sm:p-10 shadow-[0_0_100px_rgba(212,175,55,0.22)] relative overflow-hidden my-auto">
             <div class="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-amber-500/60 rounded-tl-2xl pointer-events-none"></div>
             <div class="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-amber-500/60 rounded-tr-2xl pointer-events-none"></div>
@@ -260,37 +259,40 @@
                     <span>🏛️ VIỆN TRIỂN LÃM ĐẶC BIỆT • 27.10.2026</span>
                 </div>
 
-                <h1 class="font-cinzel text-3xl sm:text-5xl font-extrabold tracking-wider gold-shimmer leading-tight">
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-wider gold-shimmer leading-tight font-serif-luxury">
                     THE MUSEUM OF<br>VƯƠNG QUỐC MẠNH
                 </h1>
 
                 <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-lg mx-auto">
-                    Kính mời quý khách bước vào không gian nghệ thuật số lưu giữ <strong class="text-amber-200">10 kiệt tác để đời</strong>: từ kèo CS2 nghẹt thở tại IEM Kraków 2026, trận chiến cổng trường, đến hành trình đi IRL hầu hạ và căn phòng bí mật cuối hành lang.
+                    Kính mời quý khách bước vào không gian nghệ thuật số lưu giữ <strong class="text-amber-200 font-bold">10 kiệt tác để đời</strong>: từ kèo CS2 nghẹt thở tại IEM Kraków 2026, trận chiến cổng trường, đến hành trình đi IRL hầu hạ và căn phòng bí mật cuối hành lang.
                 </p>
 
                 <div class="bg-[#16161f] border border-amber-500/30 rounded-xl p-5 text-left space-y-3.5 my-3 shadow-inner">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
                         <div>
-                            <span class="text-[10px] uppercase tracking-widest text-zinc-500 block font-semibold">DANH TÍNH TÁC PHẨM</span>
+                            <span class="text-[10px] uppercase tracking-widest text-zinc-500 block font-semibold font-mono">DANH TÍNH TÁC PHẨM</span>
                             <span class="font-bold text-amber-300 text-base">Vương Quốc Mạnh (s1natraa / nùn ná na na)</span>
                         </div>
                         <div class="text-right">
-                            <span class="text-[10px] uppercase tracking-widest text-zinc-500 block font-semibold">CỘT MỐC SINH NHẬT</span>
+                            <span class="text-[10px] uppercase tracking-widest text-zinc-500 block font-semibold font-mono">CỘT MỐC SINH NHẬT</span>
                             <span class="font-mono text-amber-200 text-sm font-bold tracking-wider">27 • 10 • 2026</span>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs uppercase tracking-wider text-zinc-300 mb-2">
-                            🔑 Mật mã mở cửa viện bảo tàng (Gợi ý: <span class="text-amber-300 font-mono font-bold">2710</span> hoặc <span class="text-amber-300 font-mono font-bold">27102026</span>):
+                        <label class="block text-xs uppercase tracking-wider text-zinc-300 mb-2 flex items-center justify-between">
+                            <span>🔑 Nhập mật mã mở cửa:</span>
+                            <span class="text-amber-300 font-mono text-[11px] font-semibold">(Gợi ý: 2710 hoặc 27102026)</span>
                         </label>
                         <div class="flex gap-2">
+                            <!-- Empty passcode by default as requested -->
                             <input 
                                 id="passcodeInput" 
                                 type="text" 
-                                placeholder="Nhập 2710..." 
-                                value="27102026"
-                                class="w-full bg-zinc-950 border border-amber-500/50 focus:border-amber-400 rounded-lg px-4 py-2.5 text-center font-mono text-lg tracking-widest text-amber-200 outline-none shadow-inner"
+                                placeholder="Nhập 2710 tại đây..." 
+                                value=""
+                                autofocus
+                                class="w-full bg-zinc-950 border border-amber-500/50 focus:border-amber-400 rounded-lg px-4 py-2.5 text-center font-mono text-lg tracking-widest text-amber-200 outline-none shadow-inner transition placeholder:text-zinc-600 placeholder:text-sm placeholder:tracking-normal"
                             >
                             <button 
                                 onclick="enterMuseum()" 
@@ -302,16 +304,18 @@
                     </div>
                 </div>
 
+                <!-- Only VIP entrance & Lobby Music Button, Removed upload image button -->
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                     <button 
                         onclick="enterMuseum(true)" 
-                        class="w-full sm:w-auto px-6 py-3 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs sm:text-sm font-semibold border border-amber-500/40 transition">
+                        class="w-full sm:w-auto px-7 py-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs sm:text-sm font-semibold border border-amber-500/40 transition shadow-lg">
                         ✨ Vào Trực Tiếp Bằng Thẻ VIP Khách Mời
                     </button>
-                    <label class="w-full sm:w-auto px-5 py-3 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 text-xs sm:text-sm font-medium border border-zinc-700 transition cursor-pointer text-center">
-                        📂 Tải 10 ảnh từ thư mục máy
-                        <input type="file" multiple accept="image/*" class="hidden" onchange="handleBulkUpload(event)">
-                    </label>
+                    <button 
+                        onclick="event.stopPropagation(); startLobbyMusic();" 
+                        class="w-full sm:w-auto px-5 py-3 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-amber-300 text-xs font-semibold border border-amber-500/30 transition flex items-center justify-center gap-2">
+                        🔊 <span>Bật Nhạc Sảnh Chờ ("Thank You")</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -327,10 +331,10 @@
                     M
                 </div>
                 <div>
-                    <h2 class="font-cinzel text-sm sm:text-base font-bold tracking-wider gold-shimmer">
+                    <h2 class="font-serif-luxury text-sm sm:text-base font-bold tracking-wider gold-shimmer">
                         THE MUSEUM OF VƯƠNG QUỐC MẠNH
                     </h2>
-                    <p class="text-[11px] text-zinc-400">Đại Triển Lãm Kỷ Niệm • Sinh Nhật Tuổi Mới 27.10.2026</p>
+                    <p class="text-[11px] text-zinc-400">Đại Triển Lãm Ký Ức • Sinh Nhật Tuổi Mới 27.10.2026</p>
                 </div>
             </div>
 
@@ -361,7 +365,7 @@
     <section id="hallway-start" class="relative z-10 border-b border-amber-500/20 bg-gradient-to-b from-[#14131b] via-[#0c0c10] to-[#08080a] py-8 px-4">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="space-y-2 text-center md:text-left">
-                <div class="inline-flex items-center gap-2 text-xs text-amber-400 uppercase tracking-widest font-semibold">
+                <div class="inline-flex items-center gap-2 text-xs text-amber-400 uppercase tracking-widest font-semibold font-mono">
                     <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
                     <span>HÀNH TRÌNH TRIỂN LÃM ĐỘC QUYỀN • DÀNH TẶNG VƯƠNG QUỐC MẠNH</span>
                 </div>
@@ -374,22 +378,19 @@
                 </p>
             </div>
 
+            <!-- Removed Upload Button -->
             <div class="flex items-center gap-2 shrink-0">
-                <button onclick="walkHallway(-550)" class="px-4 py-3 rounded-xl bg-zinc-900/90 hover:bg-amber-500/20 border border-amber-500/30 text-amber-200 text-sm font-semibold flex items-center gap-2 transition active:scale-95">
+                <button onclick="walkHallway(-550)" class="px-5 py-3 rounded-xl bg-zinc-900/90 hover:bg-amber-500/20 border border-amber-500/30 text-amber-200 text-sm font-semibold flex items-center gap-2 transition active:scale-95 shadow-md">
                     ◀ Lùi lại
                 </button>
-                <button onclick="walkHallway(550)" class="px-5 py-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-sm font-semibold flex items-center gap-2 transition active:scale-95 shadow-lg shadow-amber-500/15">
+                <button onclick="walkHallway(550)" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 text-zinc-950 text-sm font-bold flex items-center gap-2 transition active:scale-95 shadow-lg shadow-amber-500/20 hover:brightness-110">
                     Bước tiếp ▶
                 </button>
-                <label class="px-3.5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-medium cursor-pointer transition">
-                    📷 Thay 10 ảnh
-                    <input type="file" multiple accept="image/*" class="hidden" onchange="handleBulkUpload(event)">
-                </label>
             </div>
         </div>
 
         <div class="max-w-6xl mx-auto mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-400 overflow-x-auto gap-4 pb-2">
-            <span class="text-amber-300 font-mono shrink-0 uppercase tracking-wider text-[11px]">Sơ Đồ Phòng Tranh:</span>
+            <span class="text-amber-300 font-mono shrink-0 uppercase tracking-wider text-[11px] font-bold">Sơ Đồ Phòng Tranh:</span>
             <div class="flex items-center gap-2 shrink-0" id="miniMapDots"></div>
             <span class="text-[11px] text-zinc-500 font-mono shrink-0">Lăn chuột dọc để đi ngang</span>
         </div>
@@ -427,7 +428,7 @@
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs uppercase tracking-[0.25em] font-semibold">
                     <span>🌟 CĂN PHÒNG TƯƠNG LAI • CỘT MỐC SINH NHẬT 27/10/2026</span>
                 </div>
-                <h2 class="font-cinzel text-3xl sm:text-5xl font-extrabold gold-shimmer">
+                <h2 class="font-serif-luxury text-3xl sm:text-5xl font-extrabold gold-shimmer">
                     PHÒNG TỈNH NGỘ & BẢN LĨNH TUỔI MỚI
                 </h2>
                 <p class="text-zinc-400 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
@@ -496,7 +497,7 @@
                 <div class="lg:col-span-7 bg-[#121218] border border-amber-500/30 rounded-2xl p-6 sm:p-8 text-center flex flex-col items-center justify-between relative overflow-hidden shadow-2xl">
                     <div class="space-y-1">
                         <div class="text-xs uppercase tracking-widest text-amber-400 font-semibold font-mono">CỘT MỐC SINH NHẬT • 27.10.2026</div>
-                        <h3 class="font-cinzel text-xl sm:text-2xl font-bold text-white">
+                        <h3 class="font-serif-luxury text-xl sm:text-2xl font-bold text-white">
                             CHIẾC BÁNH SINH NHẬT VƯƠNG QUỐC MẠNH
                         </h3>
                     </div>
@@ -511,11 +512,11 @@
 
                             <rect x="45" y="130" width="190" height="66" rx="14" fill="#3b2316" stroke="#d4af37" stroke-width="2"/>
                             <path d="M45 140 Q60 158 75 140 Q90 160 105 140 Q120 158 135 140 Q150 160 165 140 Q180 158 195 140 Q210 160 225 140 Q230 148 235 140 L235 130 L45 130 Z" fill="#fef3c7"/>
-                            <text x="140" y="174" text-anchor="middle" fill="#fde68a" font-family="'Cinzel', serif" font-weight="bold" font-size="14" letter-spacing="3">27 • 10 • 2026</text>
+                            <text x="140" y="174" text-anchor="middle" fill="#fde68a" font-family="'Playfair Display', serif" font-weight="bold" font-size="14" letter-spacing="3">27 • 10 • 2026</text>
 
                             <rect x="75" y="78" width="130" height="56" rx="12" fill="#58291a" stroke="#d4af37" stroke-width="2"/>
                             <path d="M75 88 Q90 102 105 88 Q122 105 140 88 Q158 105 175 88 Q190 102 205 88 L205 78 L75 78 Z" fill="#fffbeb"/>
-                            <text x="140" y="116" text-anchor="middle" fill="#ffffff" font-family="'Plus Jakarta Sans', sans-serif" font-weight="bold" font-size="12" letter-spacing="1">QUỐC MẠNH</text>
+                            <text x="140" y="116" text-anchor="middle" fill="#ffffff" font-family="'Be Vietnam Pro', sans-serif" font-weight="bold" font-size="12" letter-spacing="1">QUỐC MẠNH</text>
 
                             <g id="svgCandlesSticks">
                                 <rect x="102" y="38" width="11" height="42" rx="3" fill="#fef08a" stroke="#ca8a04" stroke-width="1.2"/>
@@ -561,13 +562,13 @@
             <!-- Letter Plaque -->
             <div class="relative rounded-3xl p-1 bg-gradient-to-br from-amber-500/70 via-yellow-200/40 to-amber-700/70 shadow-[0_0_100px_rgba(212,175,55,0.25)]">
                 <div class="bg-[#0e0d14] rounded-[22px] p-6 sm:p-12 relative overflow-hidden">
-                    <div class="absolute -right-8 -bottom-10 text-[180px] opacity-5 pointer-events-none select-none font-cinzel text-amber-300">
+                    <div class="absolute -right-8 -bottom-10 text-[180px] opacity-5 pointer-events-none select-none font-serif-luxury text-amber-300">
                         27.10
                     </div>
 
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-500/25 pb-6 mb-8">
                         <div>
-                            <div class="text-xs uppercase tracking-[0.25em] text-amber-400 mb-1 font-semibold">TÂM THƯ KẾT THÚC HÀNH TRÌNH BẢO TÀNG</div>
+                            <div class="text-xs uppercase tracking-[0.25em] text-amber-400 mb-1 font-semibold font-mono">TÂM THƯ KẾT THÚC HÀNH TRÌNH BẢO TÀNG</div>
                             <h3 class="font-serif-luxury text-2xl sm:text-3xl font-bold text-white">
                                 Gửi Thằng Em Vương Quốc Mạnh (27/10/2026)
                             </h3>
@@ -588,7 +589,7 @@
                             Năm nay cũng bớt kiếm cớ <span class="italic text-amber-200 font-semibold">"mỏi người"</span> hay <span class="italic text-amber-200 font-semibold">"trúng gió"</span> để đi xông hơi, massage đèn mờ lại; mấy cái trò giải trí tốn kém ấy chỉ tổ làm rỗng túi và bào mòn sức khỏe của mày thôi.
                         </p>
                         <p>
-                            Tuổi mới lớn thêm một tuổi rồi, anh mong em có một <strong class="text-amber-300">cái đầu thật lạnh</strong> để dứt khoát với những cám dỗ, <strong class="text-amber-300">đôi tay mạnh</strong> để tập trung làm ăn chân chính thay vì canh nặn bài thâu đêm, và xây dựng một lối sống lành mạnh, đàng hoàng để gia đình đỡ phải lo nghĩ.
+                            Tuổi mới lớn thêm một tuổi rồi, anh mong em có một <strong class="text-amber-300 font-bold">cái đầu thật lạnh</strong> để dứt khoát với những cám dỗ, <strong class="text-amber-300 font-bold">đôi tay mạnh</strong> để tập trung làm ăn chân chính thay vì canh nặn bài thâu đêm, và xây dựng một lối sống lành mạnh, đàng hoàng để gia đình đỡ phải lo nghĩ.
                         </p>
                         <p class="text-amber-200 font-bold text-lg pt-4 border-t border-zinc-800">
                             Coi tuổi mới này là cột mốc để làm lại từ đầu nhé em trai, chúc Mạnh sinh nhật vui vẻ, sớm tỉnh ngộ và bản lĩnh hơn!
@@ -617,7 +618,7 @@
             <div class="flex items-center justify-between px-6 py-4 bg-[#181822] border-b border-amber-500/20">
                 <div class="flex items-center gap-3">
                     <span id="modalPlaqueCode" class="px-3 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-xs font-bold">HIỆN VẬT #01</span>
-                    <span id="modalHallTitle" class="text-xs text-zinc-400 uppercase tracking-wider hidden sm:inline"></span>
+                    <span id="modalHallTitle" class="text-xs text-zinc-400 uppercase tracking-wider hidden sm:inline font-mono"></span>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="text-[11px] text-zinc-500 hidden sm:inline font-mono">Nhấn ESC để đóng</span>
@@ -628,12 +629,9 @@
             <div class="grid grid-cols-1 lg:grid-cols-12">
                 <div class="lg:col-span-7 bg-[#09090d] p-5 sm:p-8 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-zinc-800 relative">
                     <div id="modalVisualDisplay" class="w-full rounded-lg overflow-hidden border-2 border-amber-500/40 shadow-2xl bg-black zoomable-container"></div>
-                    <div class="mt-4 flex items-center justify-between w-full gap-2">
+                    <div class="mt-4 flex items-center justify-between w-full text-zinc-400 text-xs">
                         <span id="modalFileNotice" class="text-[11px] font-mono text-zinc-500 truncate"></span>
-                        <label class="px-3 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-xs font-medium cursor-pointer transition shrink-0">
-                            📷 Thay ảnh cho khung này
-                            <input type="file" accept="image/*" class="hidden" onchange="replaceModalCurrentArtwork(event)">
-                        </label>
+                        <span class="text-[11px] font-mono text-amber-300/80">Lưu trữ bảo tàng</span>
                     </div>
                 </div>
 
@@ -641,7 +639,7 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <span id="modalDateStamp" class="text-xs text-amber-400 font-mono uppercase tracking-widest font-semibold"></span>
-                            <span id="modalLocationBadge" class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded border border-zinc-700"></span>
+                            <span id="modalLocationBadge" class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded border border-zinc-700 font-mono"></span>
                         </div>
                         <h3 id="modalArtworkTitle" class="font-serif-luxury text-2xl sm:text-3xl font-bold text-white leading-snug"></h3>
                         <div class="w-16 h-0.5 bg-gradient-to-r from-amber-400 to-transparent"></div>
@@ -666,10 +664,10 @@
     </div>
 
     <!-- ==========================================
-         7. FLOATING YOUTUBE AUDIO CONTROLLER
+         7. FLOATING DUAL-TRACK YOUTUBE AUDIO CONTROLLER
          ========================================== -->
     <div class="fixed bottom-5 right-5 z-40 select-none">
-        <div class="bg-[#121117]/95 backdrop-blur-md border border-amber-500/40 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.85)] p-3 transition-all duration-300 max-w-[320px]">
+        <div class="bg-[#121117]/95 backdrop-blur-md border border-amber-500/40 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.85)] p-3 transition-all duration-300 max-w-[340px]">
             <div class="flex items-center gap-3">
                 <div id="ytVinylDisc" onclick="toggleYTAudio()" class="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-700 p-0.5 shadow-lg cursor-pointer shrink-0 transition">
                     <div class="w-full h-full bg-[#181820] rounded-full flex items-center justify-center border border-amber-400/40 text-amber-300 text-lg">
@@ -678,18 +676,34 @@
                 </div>
                 <div class="flex-1 min-w-0 cursor-pointer" onclick="toggleYTAudio()">
                     <div class="flex items-center gap-1.5">
-                        <span class="text-[10px] font-mono text-amber-400 uppercase tracking-widest font-bold">NHẠC SINH NHẬT</span>
-                        <span id="ytWaveBars" class="hidden items-center gap-0.5">
+                        <span id="ytBadgeText" class="text-[10px] font-mono text-amber-400 uppercase tracking-widest font-bold px-1.5 py-0.2 bg-amber-500/10 rounded border border-amber-500/20">
+                            SẢNH CHỜ
+                        </span>
+                        <span id="ytWaveBars" class="hidden items-center gap-0.5 ml-1">
                             <span class="w-1 h-3 bg-amber-400 animate-pulse rounded-full"></span>
                             <span class="w-1 h-4 bg-yellow-300 animate-bounce rounded-full"></span>
                             <span class="w-1 h-2 bg-amber-500 animate-pulse rounded-full"></span>
                         </span>
                     </div>
-                    <h4 class="text-xs font-bold text-white truncate">Khúc Hát Mừng Sinh Nhật [Remix]</h4>
-                    <p class="text-[10px] text-zinc-400 truncate">DJ Khoa Music • Tặng Quốc Mạnh</p>
+                    <h4 id="ytTrackTitle" class="text-xs font-bold text-white truncate mt-0.5">
+                        Happy Upbeat Beat ("Thank You")
+                    </h4>
+                    <p id="ytTrackArtist" class="text-[10px] text-zinc-400 truncate">
+                        omitobeats • Nhạc Sảnh Chờ
+                    </p>
                 </div>
                 <button id="ytPlayBtn" onclick="toggleYTAudio()" class="w-9 h-9 rounded-xl bg-amber-500 hover:bg-yellow-400 text-zinc-950 flex items-center justify-center font-bold shadow-md transition active:scale-90 shrink-0">
                     ▶
+                </button>
+            </div>
+
+            <!-- Quick Track Switcher -->
+            <div class="mt-2.5 pt-2 border-t border-zinc-800/80 flex items-center justify-between text-[11px] gap-2">
+                <button onclick="switchYTIframeTrack('lobby')" id="btnTrackLobby" class="flex-1 px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center font-medium">
+                    🎵 Nhạc Sảnh
+                </button>
+                <button onclick="switchYTIframeTrack('party')" id="btnTrackParty" class="flex-1 px-2 py-1 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-amber-200 text-center font-medium">
+                    🎂 Sinh Nhật Remix
                 </button>
             </div>
         </div>
@@ -699,6 +713,25 @@
          8. JAVASCRIPT APP CORE
          ========================================== -->
     <script>
+        const TRACK_CONFIG = {
+            lobby: {
+                id: '08PaKd2Xmxw',
+                title: 'Happy Upbeat Beat ("Thank You")',
+                artist: 'omitobeats • Nhạc Sảnh Chờ',
+                badge: 'SẢNH CHỜ'
+            },
+            party: {
+                id: 'CGfM-PN3qcs',
+                title: 'Khúc Hát Mừng Sinh Nhật [Remix]',
+                artist: 'DJ Khoa Music • Tặng Quốc Mạnh',
+                badge: 'SINH NHẬT'
+            }
+        };
+
+        let currentActiveTrack = 'lobby';
+        let ytPlayer = null;
+        let ytPlaying = false;
+
         const EXHIBIT_ITEMS = [
             {
                 id: 1,
@@ -867,14 +900,10 @@
             }
         ];
 
-        const customImageMap = {};
         let activeModalIndex = 0;
         let isGridViewActive = false;
         let detoxState = { 1: false, 2: false, 3: false };
-        let ytPlayer = null;
-        let ytPlaying = false;
 
-        // Load YouTube Iframe API
         (function loadYT() {
             const tag = document.createElement('script');
             tag.src = "https://www.youtube.com/iframe_api";
@@ -885,17 +914,25 @@
             ytPlayer = new YT.Player('youtubeAudioPlayer', {
                 height: '10',
                 width: '10',
-                videoId: 'CGfM-PN3qcs',
+                videoId: TRACK_CONFIG.lobby.id,
                 playerVars: {
-                    autoplay: 0,
+                    autoplay: 1,
                     controls: 0,
                     disablekb: 1,
                     fs: 0,
                     loop: 1,
-                    playlist: 'CGfM-PN3qcs',
+                    playlist: TRACK_CONFIG.lobby.id,
                     playsinline: 1
                 },
                 events: {
+                    onReady: (e) => {
+                        e.target.setVolume(85);
+                        try {
+                            e.target.playVideo();
+                            ytPlaying = true;
+                            updateYTUI(true);
+                        } catch(err) {}
+                    },
                     onStateChange: (e) => {
                         if (e.data === 1) {
                             ytPlaying = true;
@@ -908,6 +945,43 @@
                 }
             });
         };
+
+        function startLobbyMusic() {
+            if (!ytPlayer) return;
+            switchYTIframeTrack('lobby');
+        }
+
+        function playLobbyMusicIfStopped() {
+            if (ytPlayer && !ytPlaying) {
+                try {
+                    ytPlayer.playVideo();
+                } catch(e) {}
+            }
+        }
+
+        function switchYTIframeTrack(trackKey) {
+            currentActiveTrack = trackKey;
+            const track = TRACK_CONFIG[trackKey];
+            if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+                ytPlayer.loadVideoById(track.id);
+                ytPlayer.playVideo();
+                ytPlaying = true;
+                updateYTUI(true);
+            }
+            document.getElementById('ytBadgeText').textContent = track.badge;
+            document.getElementById('ytTrackTitle').textContent = track.title;
+            document.getElementById('ytTrackArtist').textContent = track.artist;
+
+            const btnLobby = document.getElementById('btnTrackLobby');
+            const btnParty = document.getElementById('btnTrackParty');
+            if (trackKey === 'lobby') {
+                btnLobby.className = "flex-1 px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center font-medium";
+                btnParty.className = "flex-1 px-2 py-1 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-amber-200 text-center font-medium";
+            } else {
+                btnParty.className = "flex-1 px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center font-medium";
+                btnLobby.className = "flex-1 px-2 py-1 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-amber-200 text-center font-medium";
+            }
+        }
 
         function toggleYTAudio() {
             if (!ytPlayer) return;
@@ -959,7 +1033,7 @@
                         <div class="w-14 h-14 rounded-full bg-amber-500/15 border-2 border-amber-500/50 flex items-center justify-center text-amber-300 font-cinzel font-bold text-2xl mb-4 shadow-inner">
                             ${romanNum}
                         </div>
-                        <div class="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold mb-2">KHU TRIỂN LÃM</div>
+                        <div class="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-semibold mb-2 font-mono">KHU TRIỂN LÃM</div>
                         <h3 class="font-cinzel text-xl font-bold gold-shimmer leading-snug mb-4">
                             ${item.hallName.split(':')[1] || item.hallName}
                         </h3>
@@ -973,8 +1047,6 @@
                 col.id = `exhibit-${item.id}`;
                 col.className = "shrink-0 w-[350px] sm:w-[440px] flex flex-col justify-between relative pt-8 group perspective-museum";
 
-                const activeSrc = customImageMap[item.id] || item.imagePath;
-
                 col.innerHTML = `
                     <div class="spotlight-track"></div>
                     <div class="spotlight-beam"></div>
@@ -987,7 +1059,7 @@
 
                         <div class="matting-inner rounded overflow-hidden relative">
                             <img 
-                                src="${activeSrc}" 
+                                src="${item.imagePath}" 
                                 alt="${item.title}" 
                                 class="w-full h-[260px] object-cover object-center block bg-zinc-950 transition duration-500 group-hover:scale-105"
                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
@@ -1006,10 +1078,7 @@
                     <div onclick="openArtworkModal(${index})" class="louvre-brass-plaque mt-6 rounded-xl p-4 sm:p-5 z-10">
                         <div class="flex items-center justify-between gap-2 mb-1.5">
                             <span class="text-[10px] font-mono text-amber-400 font-bold tracking-widest">${item.code}</span>
-                            <label onclick="event.stopPropagation()" class="text-[10px] text-zinc-400 hover:text-amber-300 cursor-pointer transition underline">
-                                📷 Đổi ảnh
-                                <input type="file" accept="image/*" class="hidden" onchange="uploadSingleImage(event, ${item.id})">
-                            </label>
+                            <span class="text-[10px] font-mono text-zinc-400">Lưu trữ</span>
                         </div>
                         <h4 class="font-serif-luxury text-lg font-bold text-amber-100 mb-2 line-clamp-1 group-hover:text-amber-300 transition">
                             ${item.title}
@@ -1027,7 +1096,7 @@
             futurePortal.className = "shrink-0 w-80 sm:w-96 flex flex-col justify-center items-center text-center p-8 rounded-2xl bg-gradient-to-br from-amber-500/25 via-[#181510] to-[#0a0a0f] border-2 border-amber-500/60 shadow-[0_0_60px_rgba(212,175,55,0.25)] my-auto h-[500px]";
             futurePortal.innerHTML = `
                 <div class="text-5xl mb-4 animate-bounce">🎂</div>
-                <span class="text-[11px] uppercase tracking-[0.25em] text-amber-300 font-bold">ĐÍCH ĐẾN HÀNH LANG</span>
+                <span class="text-[11px] uppercase tracking-[0.25em] text-amber-300 font-bold font-mono">ĐÍCH ĐẾN HÀNH LANG</span>
                 <h3 class="font-cinzel text-2xl font-bold gold-shimmer mt-2 mb-3">CĂN PHÒNG TƯƠNG LAI</h3>
                 <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
                     Hãy bước vào căn phòng cuối cùng để thổi nến đón tuổi mới cùng nhạc Remix sôi động!
@@ -1096,9 +1165,8 @@
                 gate.classList.add('opacity-0', 'pointer-events-none');
                 setTimeout(() => gate.classList.add('hidden'), 700);
 
-                if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
-                    ytPlayer.playVideo();
-                }
+                // Switch to Birthday Party Remix
+                switchYTIframeTrack('party');
             } else {
                 err.classList.remove('hidden');
             }
@@ -1118,11 +1186,10 @@
             document.getElementById('modalFileNotice').textContent = `Tệp hiện vật: ${item.imagePath}`;
             document.getElementById('modalCounterText').textContent = `${index + 1} / ${EXHIBIT_ITEMS.length}`;
 
-            const activeSrc = customImageMap[item.id] || item.imagePath;
             const display = document.getElementById('modalVisualDisplay');
             display.innerHTML = `
                 <img 
-                    src="${activeSrc}" 
+                    src="${item.imagePath}" 
                     alt="${item.title}" 
                     class="zoomable-image w-full max-h-[480px] object-contain mx-auto bg-black block"
                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
@@ -1149,47 +1216,6 @@
         function navigateModalExhibit(direction) {
             const nextIdx = (activeModalIndex + direction + EXHIBIT_ITEMS.length) % EXHIBIT_ITEMS.length;
             openArtworkModal(nextIdx);
-        }
-
-        function replaceModalCurrentArtwork(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const currItem = EXHIBIT_ITEMS[activeModalIndex];
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                customImageMap[currItem.id] = e.target.result;
-                renderMuseumHallway();
-                openArtworkModal(activeModalIndex);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function uploadSingleImage(event, exhibitId) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                customImageMap[exhibitId] = e.target.result;
-                renderMuseumHallway();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function handleBulkUpload(event) {
-            const files = Array.from(event.target.files);
-            if (!files.length) return;
-
-            files.slice(0, 10).forEach((file, idx) => {
-                const matched = EXHIBIT_ITEMS.find(item => file.name.toLowerCase().includes(item.imagePath.split('.')[0]));
-                const targetId = matched ? matched.id : (idx + 1);
-
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    customImageMap[targetId] = e.target.result;
-                    renderMuseumHallway();
-                };
-                reader.readAsDataURL(file);
-            });
         }
 
         function toggleDetoxStep(stepNumber) {
@@ -1225,9 +1251,7 @@
             document.getElementById('blowBtn').classList.add('hidden');
             document.getElementById('relightBtn').classList.remove('hidden');
 
-            if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
-                ytPlayer.playVideo();
-            }
+            switchYTIframeTrack('party');
             triggerCelebrationFireworks();
         }
 

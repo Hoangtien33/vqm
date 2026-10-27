@@ -1,28 +1,17 @@
 import React, { useState } from 'react';
-import { Search, ImagePlus } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Exhibit } from '../types/museum';
 
 interface ExhibitCardProps {
   item: Exhibit;
-  customSrc?: string;
   onOpenModal: () => void;
-  onSingleUpload: (file: File) => void;
 }
 
 export const ExhibitCard: React.FC<ExhibitCardProps> = ({
   item,
-  customSrc,
   onOpenModal,
-  onSingleUpload,
 }) => {
   const [imageError, setImageError] = useState<boolean>(false);
-  const activeSrc = customSrc || item.imagePath;
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      onSingleUpload(e.target.files[0]);
-    }
-  };
 
   return (
     <div
@@ -54,7 +43,7 @@ export const ExhibitCard: React.FC<ExhibitCardProps> = ({
         <div className="bg-[radial-gradient(circle_at_center,#1b1b22_0%,#0a0a0d_100%)] p-2.5 rounded border-2 border-[#5a4116] shadow-[inset_0_0_20px_rgba(0,0,0,0.9)] overflow-hidden relative">
           {!imageError ? (
             <img
-              src={activeSrc}
+              src={item.imagePath}
               alt={item.title}
               onError={() => setImageError(true)}
               className="w-full h-[260px] object-cover object-center block bg-zinc-950 transition duration-500 group-hover:scale-105"
@@ -73,7 +62,7 @@ export const ExhibitCard: React.FC<ExhibitCardProps> = ({
         </div>
       </div>
 
-      {/* Louvre Brass Plaque Below Frame */}
+      {/* Louvre Brass Plaque Below Frame - Removed change image button */}
       <div
         onClick={onOpenModal}
         className="mt-6 rounded-xl p-4 sm:p-5 bg-gradient-to-br from-[#2b2518] via-[#15130d] to-[#2b2518] border border-[#b38728] shadow-[0_8px_20px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,237,160,0.4),inset_0_0_15px_rgba(0,0,0,0.8)] hover:border-[#fceda2] hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(0,0,0,0.9),0_0_20px_rgba(212,175,55,0.25)] transition duration-300 cursor-pointer z-10 relative"
@@ -82,24 +71,14 @@ export const ExhibitCard: React.FC<ExhibitCardProps> = ({
           <span className="text-[10px] font-mono text-amber-400 font-bold tracking-widest">
             {item.code}
           </span>
-          <label
-            onClick={(e) => e.stopPropagation()}
-            className="text-[10px] text-zinc-400 hover:text-amber-300 cursor-pointer transition underline flex items-center gap-1"
-          >
-            <ImagePlus className="w-3 h-3" />
-            <span>Đổi ảnh</span>
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </label>
+          <span className="text-[10px] font-mono text-zinc-400">
+            {item.category}
+          </span>
         </div>
         <h4 className="font-serifLuxury text-lg font-bold text-amber-100 mb-2 line-clamp-1 group-hover:text-amber-300 transition">
           {item.title}
         </h4>
-        <p className="text-xs sm:text-sm text-zinc-300/90 leading-relaxed line-clamp-3 select-none">
+        <p className="text-xs sm:text-sm text-zinc-300/90 leading-relaxed line-clamp-3 select-none font-sans">
           "{item.story}"
         </p>
       </div>

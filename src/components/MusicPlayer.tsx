@@ -1,8 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Volume2, VolumeX, Play, Pause, Music, ExternalLink, ChevronUp, ChevronDown } from 'lucide-react';
+import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react';
+import { Volume2, VolumeX, Play, Pause, Music, ChevronUp, ChevronDown, Disc } from 'lucide-react';
+
+export interface MusicPlayerHandle {
+  playTrack: (trackKey: 'lobby' | 'party') => void;
+  play: () => void;
+  pause: () => void;
+}
+
+export const TRACKS = {
+  lobby: {
+    id: '08PaKd2Xmxw',
+    title: 'Happy Upbeat Beat ("Thank You")',
+    artist: 'omitobeats • Nhạc Sảnh Chờ',
+    badge: 'SẢNH CHỜ'
+  },
+  party: {
+    id: 'CGfM-PN3qcs',
+    title: 'Khúc Hát Mừng Sinh Nhật [Remix]',
+    artist: 'DJ Khoa Music • Tặng Quốc Mạnh',
+    badge: 'SINH NHẬT'
+  }
+};
 
 interface MusicPlayerProps {
-  videoId?: string;
+  initialTrack?: 'lobby' | 'party';
   autoPlayTrigger?: boolean;
 }
 
@@ -13,18 +34,55 @@ declare global {
   }
 }
 
-export const MusicPlayer: React.FC<MusicPlayerProps> = ({
-  videoId = 'CGfM-PN3qcs',
+export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
+  initialTrack = 'lobby',
   autoPlayTrigger = false,
-}) => {
+}, ref) => {
+  const [currentTrackKey, setCurrentTrackKey] = useState<'lobby' | 'party'>(initialTrack);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [volume, setVolume] = useState<number>(75);
+  const [volume, setVolume] = useState<number>(80);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isReady, setIsReady] = useState<boolean>(false);
   const playerRef = useRef<any>(null);
 
-  // Load YouTube Iframe API Script
+  const currentTrack = TRACKS[currentTrackKey];
+
+  // Expose imperative methods to parent
+  useImperativeHandle(ref, () => ({
+    playTrack: (trackKey: 'lobby' | 'party') => {
+      switchTrack(trackKey, true);
+    },
+    play: () => {
+      if (playerRef.current && isReady) {
+        playerRef.current.playVideo();
+        setIsPlaying(true);
+      }
+    },
+    pause: () => {
+      if (playerRef.current && isReady) {
+        playerRef.current.pauseVideo();
+        setIsPlaying(false);
+      }
+    }
+  }));
+
+  const switchTrack = (trackKey: 'lobby' | 'party', startPlaying = true) => {
+    setCurrentTrackKey(trackKey);
+    const newTrack = TRACKS[trackKey];
+    if (playerRef.current && isReady) {
+      try {
+        playerRef.current.loadVideoById(newTrack.id);
+        if (startPlaying) {
+          playerRef.current.playVideo();
+          setIsPlaying(true);
+        }
+      } catch (e) {
+        console.warn('Switch track error', e);
+      }
+    }
+  };
+
   useEffect(() => {
     if (!window.YT) {
       const tag = document.createElement('script');
@@ -45,14 +103,14 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
         playerRef.current = new window.YT.Player('youtube-audio-stream', {
           height: '10',
           width: '10',
-          videoId: videoId,
+          videoId: TRACKS[currentTrackKey].id,
           playerVars: {
-            autoplay: 0,
+            autoplay: 1,
             controls: 0,
             disablekb: 1,
             fs: 0,
             loop: 1,
-            playlist: videoId,
+            playlist: TRACKS[currentTrackKey].id,
             modestbranding: 1,
             rel: 0,
             playsinline: 1,
@@ -61,25 +119,24 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
             onReady: (event: any) => {
               setIsReady(true);
               event.target.setVolume(volume);
+              // Try to start playing lobby beat
+              try {
+                event.target.playVideo();
+                setIsPlaying(true);
+              } catch (e) {}
             },
             onStateChange: (event: any) => {
-              // 1 = playing, 2 = paused
               if (event.data === 1) setIsPlaying(true);
               else if (event.data === 2 || event.data === 0) setIsPlaying(false);
             },
           },
         });
       } catch (err) {
-        console.warn('YouTube API loading fallback', err);
+        console.warn('YouTube API loading error', err);
       }
     }
+  }, []);
 
-    return () => {
-      // Cleanup player if needed
-    };
-  }, [videoId]);
-
-  // Handle external autoplay trigger (e.g. from cake blowing or entering lobby)
   useEffect(() => {
     if (autoPlayTrigger && playerRef.current && isReady) {
       try {
@@ -125,22 +182,18 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
 
   return (
     <>
-      {/* Hidden YouTube Iframe Player Container */}
       <div className="fixed -bottom-40 -right-40 opacity-0 pointer-events-none w-1 h-1 overflow-hidden">
         <div id="youtube-audio-stream"></div>
       </div>
 
-      {/* Floating Luxury Museum Audio Controller */}
       <div className="fixed bottom-5 right-5 z-40 select-none">
-        <div className="bg-[#121117]/95 backdrop-blur-md border border-amber-500/40 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.85)] p-3 transition-all duration-300 max-w-[320px]">
+        <div className="bg-[#121117]/95 backdrop-blur-md border border-amber-500/40 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.85)] p-3 transition-all duration-300 max-w-[340px]">
           
-          {/* Main Bar */}
           <div className="flex items-center gap-3">
-            {/* Spinning Vinyl Avatar */}
             <div 
               onClick={togglePlay}
               className={`w-11 h-11 rounded-full bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-700 p-0.5 shadow-lg cursor-pointer shrink-0 transition ${
-                isPlaying ? 'animate-[spin_4s_linear_infinite]' : 'opacity-80'
+                isPlaying ? 'animate-[spin_4s_linear_infinite]' : 'opacity-85'
               }`}
             >
               <div className="w-full h-full bg-[#181820] rounded-full flex items-center justify-center border border-amber-400/40">
@@ -148,38 +201,35 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
               </div>
             </div>
 
-            {/* Song Info */}
             <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-mono text-amber-400 uppercase tracking-widest font-bold">
-                  NHẠC SINH NHẬT
+                <span className="text-[10px] font-mono text-amber-400 uppercase tracking-widest font-bold px-1.5 py-0.2 bg-amber-500/10 rounded border border-amber-500/20">
+                  {currentTrack.badge}
                 </span>
                 {isPlaying && (
-                  <span className="flex items-center gap-0.5">
+                  <span className="flex items-center gap-0.5 ml-1">
                     <span className="w-1 h-3 bg-amber-400 animate-pulse rounded-full"></span>
                     <span className="w-1 h-4 bg-yellow-300 animate-bounce rounded-full"></span>
                     <span className="w-1 h-2 bg-amber-500 animate-pulse rounded-full"></span>
                   </span>
                 )}
               </div>
-              <h4 className="text-xs font-bold text-white truncate">
-                Khúc Hát Mừng Sinh Nhật [Remix]
+              <h4 className="text-xs font-bold text-white truncate mt-0.5">
+                {currentTrack.title}
               </h4>
               <p className="text-[10px] text-zinc-400 truncate">
-                DJ Khoa Music • Tặng Quốc Mạnh
+                {currentTrack.artist}
               </p>
             </div>
 
-            {/* Play/Pause Button */}
             <button
               onClick={togglePlay}
               className="w-9 h-9 rounded-xl bg-amber-500 hover:bg-yellow-400 text-zinc-950 flex items-center justify-center font-bold shadow-md transition active:scale-90 shrink-0"
-              title={isPlaying ? "Tạm dừng nhạc" : "Bật nhạc sinh nhật"}
+              title={isPlaying ? "Tạm dừng" : "Phát nhạc"}
             >
               {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
             </button>
 
-            {/* Toggle Expand Arrow */}
             <button
               onClick={() => setIsExpanded(!isExpanded)}
               className="text-zinc-400 hover:text-amber-300 transition p-1"
@@ -188,14 +238,44 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
             </button>
           </div>
 
-          {/* Expanded Drawer: Volume & Source Link */}
           {isExpanded && (
-            <div className="mt-3 pt-3 border-t border-zinc-800 space-y-2.5 animate-fadeIn">
-              <div className="flex items-center gap-2">
+            <div className="mt-3 pt-3 border-t border-zinc-800 space-y-3 animate-fadeIn">
+              {/* Track Selector Buttons */}
+              <div className="space-y-1.5">
+                <div className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold font-mono">
+                  CHỌN BÀI HÁT:
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => switchTrack('lobby', true)}
+                    className={`px-2.5 py-1.5 rounded-lg text-left text-[11px] font-semibold border transition flex items-center gap-1.5 ${
+                      currentTrackKey === 'lobby'
+                        ? 'bg-amber-500/20 border-amber-400 text-amber-300'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200'
+                    }`}
+                  >
+                    <Disc className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">Nhạc Sảnh Chờ</span>
+                  </button>
+                  <button
+                    onClick={() => switchTrack('party', true)}
+                    className={`px-2.5 py-1.5 rounded-lg text-left text-[11px] font-semibold border transition flex items-center gap-1.5 ${
+                      currentTrackKey === 'party'
+                        ? 'bg-amber-500/20 border-amber-400 text-amber-300'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200'
+                    }`}
+                  >
+                    <Disc className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">Sinh Nhật Remix</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Volume Slider */}
+              <div className="flex items-center gap-2 pt-1 border-t border-zinc-800/80">
                 <button 
                   onClick={toggleMute} 
                   className="text-zinc-400 hover:text-amber-300 transition"
-                  title={isMuted ? "Bật tiếng" : "Tắt tiếng"}
                 >
                   {isMuted || volume === 0 ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-amber-300" />}
                 </button>
@@ -211,19 +291,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
                   {isMuted ? '0%' : `${volume}%`}
                 </span>
               </div>
-
-              <div className="flex items-center justify-between text-[11px] text-zinc-400 pt-1">
-                <span className="text-amber-300/80">Âm thanh bảo tàng</span>
-                <a
-                  href={`https://youtu.be/${videoId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1 text-zinc-400 hover:text-amber-300 transition"
-                >
-                  <span>Mở YouTube</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </div>
             </div>
           )}
 
@@ -231,4 +298,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
       </div>
     </>
   );
-};
+});
+
+MusicPlayer.displayName = 'MusicPlayer';

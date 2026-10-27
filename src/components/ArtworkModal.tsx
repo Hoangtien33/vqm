@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { X, ChevronLeft, ChevronRight, ImagePlus, MapPin, Calendar, FileText } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, MapPin, Calendar, FileText } from 'lucide-react';
 import { Exhibit } from '../types/museum';
 
 interface ArtworkModalProps {
   item: Exhibit | null;
   currentIndex: number;
   totalCount: number;
-  customSrc?: string;
   onClose: () => void;
   onNavigate: (direction: number) => void;
-  onReplaceImage: (file: File) => void;
 }
 
 export const ArtworkModal: React.FC<ArtworkModalProps> = ({
   item,
   currentIndex,
   totalCount,
-  customSrc,
   onClose,
   onNavigate,
-  onReplaceImage,
 }) => {
   const [imageError, setImageError] = useState<boolean>(false);
 
@@ -39,14 +35,6 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
 
   if (!item) return null;
 
-  const activeSrc = customSrc || item.imagePath;
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      onReplaceImage(e.target.files[0]);
-    }
-  };
-
   return (
     <div
       className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto select-none"
@@ -60,7 +48,7 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
             <span className="px-3 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-xs font-bold">
               {item.code}
             </span>
-            <span className="text-xs text-zinc-400 uppercase tracking-wider hidden sm:inline">
+            <span className="text-xs text-zinc-400 uppercase tracking-wider hidden sm:inline font-mono">
               {item.hallName}
             </span>
           </div>
@@ -84,7 +72,7 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
             <div className="w-full rounded-lg overflow-hidden border-2 border-amber-500/40 shadow-2xl bg-black group relative cursor-zoom-in">
               {!imageError ? (
                 <img
-                  src={activeSrc}
+                  src={item.imagePath}
                   alt={item.title}
                   onError={() => setImageError(true)}
                   className="w-full max-h-[480px] object-contain mx-auto bg-black block transition-transform duration-300 group-hover:scale-105"
@@ -94,21 +82,14 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
               )}
             </div>
 
-            <div className="mt-4 flex items-center justify-between w-full gap-2">
+            <div className="mt-4 flex items-center justify-between w-full text-zinc-400 text-xs">
               <span className="text-[11px] font-mono text-zinc-500 truncate flex items-center gap-1.5">
                 <FileText className="w-3.5 h-3.5" />
-                <span>Tệp: {item.imagePath}</span>
+                <span>Thể loại: {item.category}</span>
               </span>
-              <label className="px-3 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-xs font-medium cursor-pointer transition shrink-0 flex items-center gap-1.5">
-                <ImagePlus className="w-3.5 h-3.5" />
-                <span>Thay ảnh cho khung này</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
-              </label>
+              <span className="text-[11px] font-mono text-amber-300/80">
+                Lưu trữ bảo tàng
+              </span>
             </div>
           </div>
 
@@ -120,7 +101,7 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
                   <Calendar className="w-3.5 h-3.5" />
                   <span>{item.date}</span>
                 </span>
-                <span className="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded border border-zinc-700 flex items-center gap-1">
+                <span className="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded border border-zinc-700 flex items-center gap-1 font-mono">
                   <MapPin className="w-3 h-3 text-amber-400" />
                   <span>{item.location}</span>
                 </span>
@@ -136,7 +117,7 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
                 <div className="text-[11px] uppercase tracking-widest text-amber-300/80 font-bold font-mono">
                   📜 CÂU CHUYỆN ẨN ĐẰNG SAU BỨC TRANH:
                 </div>
-                <p className="text-zinc-300 text-sm sm:text-base leading-relaxed select-text">
+                <p className="text-zinc-300 text-sm sm:text-base leading-relaxed select-text font-sans">
                   "{item.story}"
                 </p>
               </div>

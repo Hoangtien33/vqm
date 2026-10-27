@@ -17,9 +17,10 @@ export default {
         }
       },
       fontFamily: {
-        cinzel: ['Cinzel', 'serif'],
-        serifLuxury: ['Playfair Display', 'serif'],
-        sans: ['Plus Jakarta Sans', 'sans-serif'],
+        sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+        cinzel: ['"Cinzel"', 'serif'],
+        serifLuxury: ['"Playfair Display"', 'Georgia', 'serif'],
+        display: ['"Playfair Display"', 'serif'],
       },
       keyframes: {
         flicker: {
