@@ -523,7 +523,7 @@
             </div>
 
             <!-- Letter Plaque -->
-            <div class="relative rounded-3xl p-1 bg-gradient-to-br from-amber-500/70 via-yellow-200/40 to-amber-700/70 shadow-[0_0_100px_rgba(212,175,55,0.25)]">
+            <div id="heartfelt-letter" class="relative rounded-3xl p-1 bg-gradient-to-br from-amber-500/70 via-yellow-200/40 to-amber-700/70 shadow-[0_0_100px_rgba(212,175,55,0.25)] scroll-mt-24">
                 <div class="bg-[#0e0d14] rounded-[22px] p-6 sm:p-12 relative overflow-hidden">
                     <div class="absolute -right-8 -bottom-10 text-[180px] opacity-5 pointer-events-none select-none font-serif-luxury text-amber-300">
                         27.10
@@ -1259,6 +1259,15 @@
             }
         }
 
+        let autoScrollLetterTimer = null;
+
+        function scrollToLetterSection() {
+            const letterEl = document.getElementById('heartfelt-letter');
+            if (letterEl) {
+                letterEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
         function blowCandles() {
             document.getElementById('svgCandleFlamesGroup').classList.add('hidden');
             document.getElementById('cakeGlowLight').classList.add('opacity-0');
@@ -1267,20 +1276,30 @@
             smokeContainer.innerHTML = `<div class="text-2xl text-center animate-bounce">💨 ☁️ 💭</div>`;
             setTimeout(() => { smokeContainer.innerHTML = ''; }, 2200);
 
-            document.getElementById('cakeInstructionText').innerHTML = "🎉 <strong class='text-amber-300 text-base'>CHÚC MỪNG SINH NHẬT VƯƠNG QUỐC MẠNH (27/10/2026)!</strong> Tuổi mới sớm tỉnh ngộ, bản lĩnh vững vàng và làm ăn thành công rực rỡ!";
+            document.getElementById('cakeInstructionText').innerHTML = "🎉 <strong class='text-amber-300 text-base'>CHÚC MỪNG SINH NHẬT VƯƠNG QUỐC MẠNH (27/10/2026)!</strong> Tuổi mới sớm tỉnh ngộ, bản lĩnh vững vàng và làm ăn thành công rực rỡ! <span class='block mt-1 text-xs text-amber-300/80 italic font-mono'>📜 Tự động chuyển xuống tâm thư sau 5 giây...</span>";
             document.getElementById('blowBtn').classList.add('hidden');
             document.getElementById('relightBtn').classList.remove('hidden');
 
             switchYTIframeTrack('party', 85);
             triggerCelebrationFireworks();
+
+            if (autoScrollLetterTimer) clearTimeout(autoScrollLetterTimer);
+            autoScrollLetterTimer = setTimeout(() => {
+                scrollToLetterSection();
+            }, 5000);
         }
 
         function relightCandles() {
             document.getElementById('svgCandleFlamesGroup').classList.remove('hidden');
             document.getElementById('cakeGlowLight').classList.remove('opacity-0');
-            document.getElementById('cakeInstructionText').textContent = "✨ Nhấp vào bánh hoặc bấm nút bên dưới để thổi nến đón tuổi mới!";
+            document.getElementById('cakeInstructionText').innerHTML = "✨ Nhấp vào bánh hoặc bấm nút bên dưới để thổi nến đón tuổi mới! <span class='block mt-1 text-xs text-amber-300/80 italic font-mono'>📜 Tự động chuyển xuống tâm thư sau 5 giây...</span>";
             document.getElementById('blowBtn').classList.remove('hidden');
             document.getElementById('relightBtn').classList.add('hidden');
+
+            if (autoScrollLetterTimer) clearTimeout(autoScrollLetterTimer);
+            autoScrollLetterTimer = setTimeout(() => {
+                scrollToLetterSection();
+            }, 5000);
         }
 
         function copyLetterText() {

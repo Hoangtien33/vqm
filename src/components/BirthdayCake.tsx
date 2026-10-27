@@ -8,6 +8,17 @@ interface BirthdayCakeProps {
 export const BirthdayCake: React.FC<BirthdayCakeProps> = ({ onBlowSuccess }) => {
   const [candlesLit, setCandlesLit] = useState<boolean>(true);
   const [showSmoke, setShowSmoke] = useState<boolean>(false);
+  const [scrollNotice, setScrollNotice] = useState<boolean>(false);
+
+  const triggerAutoScrollToLetter = () => {
+    setScrollNotice(true);
+    setTimeout(() => {
+      const letterEl = document.getElementById('heartfelt-letter');
+      if (letterEl) {
+        letterEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 5000);
+  };
 
   const handleBlow = () => {
     if (!candlesLit) return;
@@ -15,11 +26,13 @@ export const BirthdayCake: React.FC<BirthdayCakeProps> = ({ onBlowSuccess }) => 
     setShowSmoke(true);
     setTimeout(() => setShowSmoke(false), 2400);
     onBlowSuccess();
+    triggerAutoScrollToLetter();
   };
 
   const handleRelight = () => {
     setCandlesLit(true);
     setShowSmoke(false);
+    triggerAutoScrollToLetter();
   };
 
   return (
@@ -108,6 +121,11 @@ export const BirthdayCake: React.FC<BirthdayCakeProps> = ({ onBlowSuccess }) => 
         {candlesLit
           ? '✨ Nhấp vào bánh hoặc bấm nút bên dưới để thổi nến đón tuổi mới!'
           : '🎉 CHÚC MỪNG SINH NHẬT VƯƠNG QUỐC MẠNH! Tuổi mới tỉnh ngộ, bản lĩnh vững vàng và làm ăn thành công!'}
+        {scrollNotice && (
+          <span className="block mt-1.5 text-xs text-amber-300 font-mono animate-pulse">
+            📜 Đang chuẩn bị chuyển xuống bức tâm thư sau 5 giây...
+          </span>
+        )}
       </p>
 
       {/* Action Buttons */}

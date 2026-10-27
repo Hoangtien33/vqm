@@ -188,7 +188,7 @@ Coi tuổi mới này là cột mốc để làm lại từ đầu nhé em trai,
         </div>
 
         {/* The Heartfelt Final Letter Plaque */}
-        <div className="relative rounded-3xl p-1 bg-gradient-to-br from-amber-500/70 via-yellow-200/40 to-amber-700/70 shadow-[0_0_100px_rgba(212,175,55,0.25)]">
+        <div id="heartfelt-letter" className="relative rounded-3xl p-1 bg-gradient-to-br from-amber-500/70 via-yellow-200/40 to-amber-700/70 shadow-[0_0_100px_rgba(212,175,55,0.25)] scroll-mt-24">
           <div className="bg-[#0e0d14] rounded-[22px] p-6 sm:p-12 relative overflow-hidden">
             {/* Watermark */}
             <div className="absolute -right-8 -bottom-10 text-[180px] opacity-5 pointer-events-none select-none font-cinzel text-amber-300">
